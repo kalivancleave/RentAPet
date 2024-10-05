@@ -9,8 +9,6 @@ const setTokenCookie = (res, user) => {
   // Create the token.
   const safeUser = {
     id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
     email: user.email,
     username: user.username,
   };
@@ -33,6 +31,7 @@ const setTokenCookie = (res, user) => {
   return token;
 };
 
+//restore user
 const restoreUser = (req, res, next) => {
   // token parsed from cookies
   const { token } = req.cookies;
@@ -61,15 +60,17 @@ const restoreUser = (req, res, next) => {
   });
 };
 
+//require auth 401 - Auth required
 // If there is no current user, return an error
 const requireAuth = function (req, _res, next) {
   if (req.user) return next();
 
   const err = new Error('Authentication required');
   err.title = 'Authentication required';
-  err.errors = { message: 'Authentication required' };
+  //err.errors = { message: 'Authentication required' };
   err.status = 401;
   return next(err);
 }
+
 
 module.exports = { setTokenCookie, restoreUser, requireAuth };

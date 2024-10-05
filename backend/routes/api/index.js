@@ -1,10 +1,29 @@
 const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
+const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
+const { User } = require('../../db/models');
+
+
+router.use(restoreUser); //make sure this happens first ALWAYS
+
+//login & logout
+router.use('/session', sessionRouter);
+//signup
+router.use('/users', usersRouter);
+//add new routes here (reservations, pets, etc.)
+
+
+
+// GET /api/restore-user
+router.get(
+  '/restore-user',
+  (req, res) => {
+    return res.json(req.user);
+  }
+);
 
 // GET /api/set-token-cookie
-const { setTokenCookie } = require('../../utils/auth.js');
-const { User } = require('../../db/models');
 router.get('/set-token-cookie', async (_req, res) => {
   const user = await User.findOne({
     where: {
@@ -15,19 +34,7 @@ router.get('/set-token-cookie', async (_req, res) => {
   return res.json({ user: user });
 });
 
-// GET /api/restore-user
-const { restoreUser } = require('../../utils/auth.js');
-router.use(restoreUser);
-
-router.get(
-  '/restore-user',
-  (req, res) => {
-    return res.json(req.user);
-  }
-);
-
 // GET /api/require-auth
-const { requireAuth } = require('../../utils/auth.js');
 router.get(
   '/require-auth',
   requireAuth,
@@ -41,9 +48,6 @@ router.post('/test', function (req, res) {
   res.json({ requestBody: req.body });
 });
 
-router.use('/session', sessionRouter);
-
-router.use('/users', usersRouter);
 
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body })
