@@ -2,6 +2,9 @@
 
 const { User } = require('../models');
 const bcrypt = require('bcryptjs');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 
 //define schema
 let options = {};
