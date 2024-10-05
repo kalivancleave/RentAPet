@@ -36,6 +36,10 @@ router.get(
   }
 );
 
+// Keep this route to test frontend setup
+router.post('/test', function (req, res) {
+  res.json({ requestBody: req.body });
+});
 
 router.use('/session', sessionRouter);
 
