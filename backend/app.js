@@ -5,14 +5,13 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const { ValidationError } = require('sequelize');
 
 const { environmet } = require('./config');
 const isProduction = environmet === 'production';
 
-const { ValidationError } = require('sequelize');
-
-const routes = require('./routes');
 const app = express();
+const routes = require('./routes');
 
 app.use(morgan('dev'));
 app.use(cookieParser());

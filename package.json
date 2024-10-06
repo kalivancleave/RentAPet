@@ -4,7 +4,6 @@
   "description": "Your partner leaving for the weekend and you need a temporary furry cuddle buddy? Or are you preparing for the perfect beach family photo but missing the one special feeling a dog, or iguana, or even a cheetah could bring to the picture? This is the site for you!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "install": "npm --prefix backend install backend",
     "dev:backend": "npm install --prefix backend start",
     "sequelize": "npm run --prefix backend sequelize",

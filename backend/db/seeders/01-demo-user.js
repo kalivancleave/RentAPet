@@ -1,9 +1,8 @@
 'use strict';
 
-const { User } = require('../models');
 const bcrypt = require('bcryptjs');
+const { User } = require('../models');
 const { Op } = require('sequelize');
-
 
 //define schema
 let options = {};
