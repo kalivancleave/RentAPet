@@ -1,7 +1,8 @@
 'use strict';
 
-const { User } = require('../models');
 const bcrypt = require('bcryptjs');
+const { User } = require('../models');
+const { Op } = require('sequelize');
 
 //define schema
 let options = {};
@@ -38,7 +39,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     options.tableName = 'Users', //options definition for using schema
     options.validate = true,
-    await User.bulkCreate(users, options)
+    await User.bulkCreate(users, options);
   },
 
   async down (queryInterface, Sequelize) {
