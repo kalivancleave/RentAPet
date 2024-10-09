@@ -2,13 +2,13 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA; // defint you schema in options object
-}
+  options.schema = process.env.SCHEMA; //define your schema in options object
+}'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Reservations', {
+    await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Animals',
+          model: 'Animal',
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -33,11 +33,13 @@ module.exports = {
         },
         onDelete: 'CASCADE'
       },
-      startDate: {
-        type: Sequelize.DATE
+      review: {
+        type: Sequelize.STRING(350)
       },
-      endDate: {
-        type: Sequelize.DATE
+      stars: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 5
       },
       createdAt: {
         allowNull: false,
@@ -52,7 +54,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Reservations'
+    options.tableName = 'Reviews'
     await queryInterface.dropTable(options);
   }
 };
