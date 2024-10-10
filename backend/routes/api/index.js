@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
+const animalsRouter = require('./animals.js');
 const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
 
 router.use(restoreUser); //make sure this happens first ALWAYS
@@ -11,6 +12,9 @@ router.use('/session', sessionRouter);
 //signup
 router.use('/users', usersRouter);
 //add new routes here (reservations, pets, etc.)
+
+//animals
+router.use('/animals', animalsRouter)
 
 
 router.get('/test', requireAuth, (req, res, next) => {
