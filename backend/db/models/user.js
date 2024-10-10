@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
     //protect hashed password and other personal info or useless info with a default scope
     defaultScope: {
       attributes: {
-        exclued: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+        excluded: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
       }
     }
   });

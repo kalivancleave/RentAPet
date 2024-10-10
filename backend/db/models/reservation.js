@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
       //one-to-many (animals to reservations) - ASSOCIATION 4
       Reservation.belongsTo(models.Animal, {
-        foreignKey: animalId
+        foreignKey: 'animalId'
       });
     }
   }
