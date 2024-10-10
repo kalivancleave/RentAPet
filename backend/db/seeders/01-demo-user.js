@@ -31,6 +31,20 @@ const users = [
     username: "alternatelogin",
     email: "alternate@email.io",
     hashedPassword: bcrypt.hashSync('Password')
+  },
+  {
+    firstName: "Bonus",
+    lastName: "Person",
+    username: "bonusperson",
+    email: "bonus@email.io",
+    hashedPassword: bcrypt.hashSync('Password')
+  },
+  {
+    firstName: "Please",
+    lastName: "Work",
+    username: "pleasework",
+    email: "please@email.io",
+    hashedPassword: bcrypt.hashSync('Password')
   }
 ]
 

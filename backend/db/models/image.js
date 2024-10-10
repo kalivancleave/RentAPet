@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       //one-to-many (animal to images) - ASSOCIATION 5
       Image.belongsTo(models.Animal, {
-        foreighKey: 'animalId'
+        foreignKey: 'animalId'
       })
     }
   }
