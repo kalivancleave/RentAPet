@@ -4,7 +4,23 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      //one-to-many (users to animals) - ASSOCIATION 2
+      User.hasMany(models.Animal, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      });
+
+      //one-to-many (users to reservations) - ASSOCIATION 1
+      User.hasMany(models.Reservation, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      });
+
+      //one-to-many (users to reviews) - ASSOCIATION 3
+      User.hasMany(models.Review, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      });
     }
   }
   User.init({
@@ -58,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
     //protect hashed password and other personal info or useless info with a default scope
     defaultScope: {
       attributes: {
-        exclued: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+        excluded: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
       }
     }
   });

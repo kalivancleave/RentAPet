@@ -22,7 +22,7 @@ COMING SOON!!!
 
 ## Database Schema Design
 
-![alt text](static/rentAPetDatabaseSchema.png)
+![alt text](static/rentAPetDatabaseSchema-01.png)
 
 ## Routes
 each route should be proceeded with `/api`
