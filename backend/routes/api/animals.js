@@ -361,6 +361,397 @@ router.post('/', requireAuth, validateAnimal, async(req, res, next) => {
   } catch (error) {
     next(error)
   }
+});
+
+//add an image to an animal based on the animal id
+router.post('/:animalId/images', requireAuth, async (req, res, next) => {
+  try {
+    //find current logged in user Id
+    const userId = req.user.id;
+
+    //find animal id
+    const animalId = req.params.animalId;
+
+    //find animal by id
+    const animal = await Animal.findByPk(animalId);
+
+    //404 - no animal
+    if(!animal){
+      res.status(404)
+      return res.json({
+        message: "Animal couldn't be found"
+      })
+    }
+
+    //make sure user owns the animal before posting a photo
+    if(animal.userId !== userId){
+      res.status(403)
+      return res.jsno({
+        message: "Forbidden"
+      })
+    }
+
+    //spot found
+    //destructure req.body
+    const {url} = req.body;
+
+    //create new image
+    const newImage = await Image.create({
+      animalId: animalId,
+      url
+    })
+
+    //return requested response
+    res.status(201),
+    res.json({
+      id: parseInt(newImage.id),
+      url: newImage.url
+    })
+    
+  } catch (error) {
+    next(error)
+  }
 })
+
+//create a review for an animal based on animal id
+router.post('/:animalId/reviews', requireAuth, validateReview, async(req, res, next) => {
+  try {
+    //find animal id
+    const animalId = req.params.animalId;
+
+    //find animal by id
+    const animal = await Animal.findByPk(animalId);
+
+    //404 - no spot found
+    if(!animal){
+      res.status(404)
+      return res.json({
+        message: "Animal couldn't be found"
+      })
+    }
+
+    //search reviews: if the user already has a review for this animal
+    const userReviewCheck = await Review.findOne({
+      where: {
+        userId: req.user.id,
+        spotId: spotId
+      }
+    });
+
+    if(userReviewCheck){
+      res.status(500)
+      return res.json({
+        message: "User already has a review for this animal"
+      })
+    }
+
+    //animal found
+    //descture from req.body
+    const {review, stars} = req.body;
+
+    //create a new review
+    const newReview = await Review.create({
+      userId: parseInt(req.user.id),
+      spotId: parseInt(spotId),
+      review,
+      stars
+    });
+
+    //return requested response
+    res.status(201)
+    res.json(newReview)
+    
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
+  try {
+    //find animal id
+    const animalId = req.params.animalId;
+
+    //find animal by id
+    const animal = await Animal.findByPk(animalId);
+
+    //404 - no animal found
+    if(!animal){
+      res.status(404)
+      return res.json({
+        message: "Animal couldn't be found"
+      })
+    };
+
+    //animal found
+    //find all bookings for that animal id before adding another
+    const reservations = await Reservation.findAll({
+      where: {
+        spotId: spotId
+      }
+    });
+
+    //animal must NOT belong to current user
+    if(spot.userId === req.user.id){
+      res.status(403)
+      return res.json({
+        message: 'Forbidden'
+      })
+    }
+
+    //descture from req.body
+    const {startDate, endDate} = req.body;
+
+    //check and make sure there are no date conflicts
+    let minAllowedDate = new Date()
+    let newBookingStartDate = new Date(startDate).getTime();
+    let newBookingEndDate = new Date(endDate).getTime();
+
+    //400 - bad requests
+    if(newBookingEndDate <= newBookingStartDate){
+      res.status(400)
+      return res.json({
+        message: "Bad Request",
+        errors: {
+          endDate: "End date cannot be on or before start date."
+        }
+      })
+    } else if (newBookingStartDate < minAllowedDate){
+      res.status(400)
+      return res.json({
+        message: "Bad Request",
+        errors: {
+          startDate: "Start date cannot be a date in the past."
+        }
+      })
+    }
+
+    //403 - reservation conflict
+    //iterate through all of the reservations
+    for (let i = 0; i < reservations.length; i++){
+      let reservation = reservations[i];
+
+      //check requested dates v. all other reserved dates
+      let date1 = new Date(reservation.startDate).getTime();
+      let date2 = new Date(reservation.endDate).getTime();
+
+      //errors if dates overlap
+      if(newBookingEndDate >= date1 && newBookingEndDate <= date2){
+        res.status(403)
+        return res.json({
+          message: "Sorry, this animal is already reserved for these specific dates",
+          errors: {
+            startDate: "Start date conflicts with an existing reservation.",
+            endDate: "End date conflices with an existing reservation."
+          }
+        })
+      } else if (newBookingStartDate >= date1 && newBookingStartDate <= date2){
+        res.status(403)
+        return res.json({
+          message: "Sorry, this animal is already reserved for these specific dates",
+          errors: {
+            startDate: "Start date conflicts with an existing reservation.",
+            endDate: "End date conflices with an existing reservation."
+          }
+        })
+      } else if (newBookingStartDate <= date1 && newBookingEndDate >= date2){
+        res.status(403)
+        return res.json({
+          message: "Sorry, this animal is already reserved for these specific dates",
+          errors: {
+            startDate: "Start date conflicts with an existing reservation.",
+            endDate: "End date conflices with an existing reservation."
+          }
+        })
+      };
+    };
+
+    //request passes all checks
+    //create a reservation request
+    let newReservation = await Reservation.create({
+      animalId: animalId,
+      userId: req.user.id,
+      startDate,
+      endDate
+    })
+
+    //return requested response
+    res.status(201)
+    res.json({
+      id: parseInt(newReservation.id),
+      animalId: parseInt(newReservation.animalId),
+      userId: parseInt(newReservation.userId),
+      startDate: newReservation.startDate.toISOString().split('T')[0],
+      endDate: newReservation.endDate.toISOString().split('T')[0],
+      createdAt: newReservation.createdAt,
+      updatedAt: newReservation.updatedAt
+    })
+    
+  } catch (error) {
+    next(error)
+  }
+})
+
+//edit an animal
+router.put('/:animalId', requireAuth, validateAnimal, async (req, res, next) => {
+  try {
+    //find the animal id
+    const animalId = req.params.animalId;
+
+    //find user id
+    const userId = req.user.id;
+
+    //find animal by id
+    const animal = await Animal.findByPk(animalId);
+
+    //404 - no animal found
+    if(!animal){
+      res.status(404)
+      return res.json({
+        message: "Animal couldn't be found"
+      })
+    }
+
+    //check that logged in user owns the animal
+    if(animal.userId !== req.user.id){
+      res.status(403)
+      return res.json({
+        message: "Forbidden"
+      })
+    }
+
+    //animal found and owned by logged in user
+    //destructure from req.body
+    const {name, birthday, type, price} = req.body;
+
+    let nameUpdate;
+    let birthdayUpdate;
+    let typeUpdate;
+    let priceUpdate;
+
+    //items found or not found in req.body
+    if(name){
+      nameUpdate = address
+    } else {
+      nameUpdate = animal.name
+    }
+
+    if(birthday){
+      birthdayUpdate = birthday
+    } else {
+      birthdayUpdate = animal.birthday
+    }
+
+    if(type){
+      typeUpdate = type
+    } else {
+      typeUpdate = animal.type
+    }
+
+    if(price){
+      priceUpdate = price
+    } else {
+      priceUpdate = animal.price
+    }
+
+    //validation errors
+    if(nameUpdate === undefined && nameUpdate.split("").length >= 50){
+      res.status(400)
+      return res.json({
+        message: "Bad Request",
+        errors: {
+          address: "Name is required and must be less than 50 characters."
+        }
+      })
+    };
+
+    if(birthdayUpdate === undefined){
+      res.status(400)
+      return res.json({
+        message: "Bad Request",
+        errors: {
+          address: "Birthday is required"
+        }
+      })
+    };
+    
+    if(typeUpdate === undefined){
+      res.status(400)
+      return res.json({
+        message: "Bad Request",
+        errors: {
+          address: "Type is required"
+        }
+      })
+    };
+    
+    if(priceUpdate !== undefined && price < 0){
+      res.status(400)
+      return res.json({
+        message: "Bad Request",
+        errors: {
+          address: "Price is required and must be a positive number"
+        }
+      })
+    };
+
+    //animal update
+    const updatedAnimal = await animal.update({
+      userId: parseInt(userId),
+      name: nameUpdate,
+      birthday: birthdayUpdate,
+      type: typeUpdate,
+      price: priceUpdate
+    })
+
+    //return requested response
+    res.json(updatedAnimal)
+    
+  } catch (error) {
+    next(error)
+  }
+})
+
+//delete an animal
+router.delete('/:animalId', requireAuth, async (req, res, next) => {
+  try {
+    //find animal id
+    const animalId = req.params.animalId
+
+    //find animal by id
+    const animalToDestroy = await Animal.findByPk(animalId);
+
+    //find logged in user id
+    const userId = req.user.id;
+
+    //404 - no animal found
+    if(!animalToDestroy){
+      res.status(404)
+      return res.json({
+        message: "Animal couldn't be found"
+      })
+    }
+
+    //make sure logged in user is the owner of the animal
+    if(animalToDestroy.userId !== userId){
+      res.status(403)
+      return res.json({
+        message: "Forbidden"
+      })
+    }
+
+    //animal found and user is owner
+    //destroy animal
+    await animalToDestroy.destroy();
+
+    //return requested response
+    res.json({
+      message: "Successfully deleted"
+    })
+
+  } catch (error) {
+    next(error)
+  }
+})
+
 
 module.exports = router;
