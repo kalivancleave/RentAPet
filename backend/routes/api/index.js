@@ -3,6 +3,8 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const animalsRouter = require('./animals.js');
 const reservationsRouter = require('./reservations.js');
+const reviewsRouter = require('./reviews.js');
+const imagesRouter = require('./images.js');
 const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
 
 router.use(restoreUser); //make sure this happens first ALWAYS
@@ -19,6 +21,12 @@ router.use('/animals', animalsRouter);
 
 //reservations
 router.use('/reservations', reservationsRouter);
+
+//reviews
+router.use('/reviews', reviewsRouter);
+
+//images
+router.use('/images', imagesRouter);
 
 
 router.get('/test', requireAuth, (req, res, next) => {
