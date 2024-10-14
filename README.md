@@ -28,13 +28,13 @@ COMING SOON!!!
 each route should be proceeded with `/api`
 
 ### User Authentication and Authorization
-* `/users/:id` 'GET' returns the current user info
-* `/users/login` 'POST' logs in a current user
-* `/users/signup` 'POST' creates a new user, logs them in as the current user, and returns the current user's info
+* `/session` 'GET' returns the current user info
+* `/session` 'POST' logs in a current user
+* `/users` 'POST' creates a new user, logs them in as the current user, and returns the current user's info
 
 ### Animals
 * `/animals` 'GET' returns all animals
-* `/user/:userId/animals` 'GET' returns all of the animals created by the current user
+* `/animals/current` 'GET' returns all of the animals created by the current user
 * `/animals/:id` 'GET' returns the details of an animal
 * `/animals` 'POST' creates and returns a new animal
 * `/animals/:animalId/images` 'POST' creates and returns a new image for an animal based on their id
