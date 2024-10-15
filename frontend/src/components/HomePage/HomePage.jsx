@@ -7,7 +7,7 @@ import { IoPawSharp } from "react-icons/io5";
 
 function HomePage() {
   const dispatch = useDispatch();
-  const animalsList = useSelector(state => state.animals.animals.Animals);
+  const animalsList = useSelector(state => state.animals.animals?.Animals);
 
   useEffect(() => {
     dispatch(fetchAnimals());
@@ -19,12 +19,14 @@ function HomePage() {
       <h1>Home Page</h1>
       <ol>
         {console.log(animalsList)}
-        {animalsList.map(({ id, birthday, name, price, type}) => (
+        {animalsList?.map(({ id, birthday, name, price, type, image, averageRating}) => (
           <div key={id}>
             <p>{birthday}</p>
             <p>{name}</p>
             <p>{price}</p>
             <p>{type}</p>
+            <p>{averageRating}</p>
+            <img src={image} />
           </div>
         ))}
       </ol>
