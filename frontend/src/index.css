@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   padding: 0px;
+  background-color: #FFFDF7;
 }
 /* colors */
 
@@ -142,6 +143,14 @@ body {
 
 .littleMoreBottomPadding {
   padding-bottom: 10px;
+}
+
+.rightPadding {
+  padding-right: 20px;
+}
+
+.leftPadding {
+  padding-left: 20px;
 }
 
 /* general sizing */

@@ -23,7 +23,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
-      <ul className='dropShadow alignTop removeDecorations displayFlex spaceBetween navBar noMargin noPadding offWhite'>
+      <ul className='leftPadding rightPadding dropShadow alignCenter removeDecorations displayFlex spaceBetween navBar noMargin noPadding offWhite'>
         <li className='' >
           <NavLink to="/">
             <a href=''>
