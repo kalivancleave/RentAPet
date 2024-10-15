@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchAnimals } from "../../store/animals";
 import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IoPawSharp } from "react-icons/io5";
 
 function HomePage() {
@@ -20,11 +19,18 @@ function HomePage() {
         {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
           <div key={id} className="testBorder displayFlex flexColumn alignCenter frontPageCards">
             <img className='imageShape' src={animalImage} />
-            <p>{name}</p>
+            <div className="displayFlex fullWidth spaceEvenly">
+              <div>
+                <p>{name}</p>
+              </div>
+              <div className="displayFlex alignCenter">
+                <p>{averageRating}</p>
+                <IoPawSharp />
+              </div>
+            </div>
             <p>{birthday}</p>
             <p>{price}</p>
             <p>{type}</p>
-            <p>{averageRating}</p>
           </div>
         ))}
       </ol>

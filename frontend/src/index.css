@@ -208,6 +208,10 @@ body {
   justify-content: space-around;
 }
 
+.spaceEvenly {
+  justify-content: space-evenly;
+}
+
 .alignCenter {
   align-items: center;
 }

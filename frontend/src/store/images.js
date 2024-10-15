@@ -12,7 +12,7 @@ const getImages = (images) => ({
 //thunks
 //get all images
 export const fetchImages = () => async (dispatch) => {
-  const response = await fetch(`api/animal/:animalId`);
+  const response = await fetch(`api/animals/:animalId`);
 
   if(response.ok) {
     const images = await response.json();
@@ -24,7 +24,7 @@ export const fetchImages = () => async (dispatch) => {
 
 export const createImage = (image, animalId) => async (dispatch) => {
   const {url} = image
-  const result = await csrfFetch(`/api/animal/${animalId}/images`, {
+  const result = await csrfFetch(`/api/animals/${animalId}/images`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
