@@ -13,20 +13,18 @@ function HomePage() {
     dispatch(fetchAnimals());
   }, [dispatch])
 
-
   return(
     <>
       <h1>Home Page</h1>
-      <ol>
-        {console.log(animalsList)}
-        {animalsList?.map(({ id, birthday, name, price, type, image, averageRating}) => (
-          <div key={id}>
-            <p>{birthday}</p>
+      <ol className="displayFlex noPadding flexWrap testBorder leftPageBorder">
+        {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
+          <div key={id} className="testBorder displayFlex flexColumn alignCenter frontPageCards">
+            <img className='imageShape' src={animalImage} />
             <p>{name}</p>
+            <p>{birthday}</p>
             <p>{price}</p>
             <p>{type}</p>
             <p>{averageRating}</p>
-            <img src={image} />
           </div>
         ))}
       </ol>
