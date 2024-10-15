@@ -4,3 +4,12 @@
   margin-right: 0px;
   margin-top: 10px;
 }
+
+.profile-dropdown {
+  position: absolute;
+  display: inline-block;
+  text-align: center;
+  top: 60px;
+  right: 50px;
+  border-radius: 5px;
+}
