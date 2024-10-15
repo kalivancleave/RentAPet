@@ -1,22 +1,39 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import RentAPetLogo from '../../../../static/rentAPetLogoDark.png';
 import ProfileButton from './ProfileButton';
+import ProfileButtonLoggedOut from './ProfileButtonLoggedOut';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
-  return (
-    <ul>
+  const sessionLinks = sessionUser ?
+    (
       <li>
-        <NavLink to="/">Home</NavLink>
+        <ProfileButton user={sessionUser} />
       </li>
-      {isLoaded && (
+    ):(
+      <li>
+        <ProfileButtonLoggedOut />
+      </li>
+    );
+
+  return (
+    <>
+      <div>
         <li>
-          <ProfileButton user={sessionUser} />
+          <NavLink to="/">
+            <a href=''>
+              <img src={RentAPetLogo} />
+            </a>
+          </NavLink>
         </li>
-      )}
-    </ul>
+        <li>
+          {isLoaded && sessionLinks}
+        </li>
+      </div>
+    </>
   );
 }
 
