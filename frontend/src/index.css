@@ -1,1 +1,227 @@
-/* TODO: Add sitewide styles */
+body {
+  margin: 0px;
+  padding: 0px;
+}
+/* colors */
+
+.darkGreen {
+  background-color: #32523A;
+}
+
+.lightGreen {
+  background-color: #C1FF72;
+}
+
+.almostBlack {
+  background-color: #1E1E1E;
+}
+
+.offWhite {
+  background-color: #FFFDF7;
+}
+
+.noBackground {
+  background: transparent;
+}
+
+/* font */
+.header {
+  font-family: "Stick No Bills", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.darkGreenFont {
+  color: #32523A;
+}
+
+.lightGreenFont {
+  color: #C1FF72;
+}
+
+.almostBlackFont {
+  color: #1E1E1E;
+}
+
+.offWhiteFont {
+  color: #FFFDF7;
+}
+
+/* font sizes */
+.xx-largeFont {
+  font-size: xx-large;
+}
+
+.x-largeFont {
+  font-size: x-large;
+}
+
+.largeFont {
+  font-size: large;
+}
+
+.mediumFont {
+  font-size: medium;
+}
+
+.smallFont {
+  font-size: small;
+}
+
+.x-smallFont {
+  font-size: x-small;
+}
+
+.xx-smallFont {
+  font-size: xx-small;
+}
+
+/* margins and paddings */
+.noMargin {
+  margin: 0px;
+}
+
+.littleMargin {
+  margin: 5px;
+}
+
+.littleTopMargin {
+  margin-top: 5px;
+}
+
+.leftPageBorder {
+  margin-left: 50px;
+}
+
+.littleLeftMargin {
+  margin-left: 5px;
+}
+
+.littleMoreLeftMargin {
+  margin-left: 10px;
+}
+
+.rightPageBorder {
+  margin-right: 50px;
+}
+
+.littleRightMargin {
+  margin-right: 5px;
+}
+
+.noPadding {
+  padding: 0px;
+}
+
+.littlePadding {
+  padding: 5px;
+}
+
+.littleTopPadding {
+  padding-top: 5px;
+}
+
+.littleMoreTopPadding {
+  padding-top: 10px;
+}
+
+.littleBottomPadding {
+  padding-bottom: 5px;
+}
+
+.littleMoreBottomPadding {
+  padding-bottom: 10px;
+}
+
+/* general sizing */
+.fullWidth {
+  width: 100%;
+}
+
+.logInInputSize {
+  width: 300px;
+}
+
+/* misc items */
+.testBorder {
+  border: 1px solid red;
+}
+
+.dropShadow {
+  box-shadow: 2px 2px 10px #5b5b5b;
+}
+
+.noBorder {
+  border: none;
+}
+
+.logo {
+  height: 100px;
+}
+
+.smallLogo {
+  height: 75px;
+}
+
+.removeDecorations {
+  list-style-type: none;
+}
+
+.displayFlex {
+  display: flex;
+}
+
+.flexColumn {
+  flex-direction: column;
+}
+
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+.spaceBetween {
+  justify-content: space-between;
+}
+
+.spaceAround {
+  justify-content: space-around;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.justifyCenter {
+  justify-items: center;
+}
+
+.alignBottom {
+  align-items: flex-end;
+}
+
+.alignTop {
+  align-items: flex-start;
+}
+
+
+.navLink {
+  text-decoration: none;
+  border: none;
+  font-size: normal;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 1;
+}
+
+.navBar {
+  height: 100px;
+}

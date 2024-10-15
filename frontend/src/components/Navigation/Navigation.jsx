@@ -2,7 +2,8 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import RentAPetLogo from '../../../../static/rentAPetLogoDark.png';
 import ProfileButton from './ProfileButton';
-import ProfileButtonLoggedOut from './ProfileButtonLoggedOut';
+import LoginFormModal from '../LoginFormModal/LoginFormModal';
+import OpenModalButton from '../OpenModalButton';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
@@ -10,29 +11,30 @@ function Navigation({ isLoaded }) {
 
   const sessionLinks = sessionUser ?
     (
-      <li>
+      <li className=''>
         <ProfileButton user={sessionUser} />
       </li>
     ):(
-      <li>
-        <ProfileButtonLoggedOut />
-      </li>
+      <OpenModalButton
+          buttonText="Log In"
+          modalComponent={<LoginFormModal />}
+        />
     );
 
   return (
     <>
-      <div>
-        <li>
+      <ul className='dropShadow alignTop removeDecorations displayFlex spaceBetween navBar noMargin noPadding offWhite'>
+        <li className='' >
           <NavLink to="/">
             <a href=''>
-              <img src={RentAPetLogo} />
+              <img className='logo' src={RentAPetLogo} />
             </a>
           </NavLink>
         </li>
-        <li>
+        <li className=''>
           {isLoaded && sessionLinks}
         </li>
-      </div>
+      </ul>
     </>
   );
 }
