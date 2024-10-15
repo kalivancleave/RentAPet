@@ -132,6 +132,10 @@ body {
   padding-top: 10px;
 }
 
+.topPadding {
+  padding-top: 15px;
+}
+
 .littleBottomPadding {
   padding-bottom: 5px;
 }
@@ -147,6 +151,7 @@ body {
 
 .logInInputSize {
   width: 300px;
+  height: 25px;
 }
 
 /* misc items */
@@ -198,6 +203,10 @@ body {
   align-items: center;
 }
 
+.textCenter {
+  text-align: center;
+}
+
 .justifyCenter {
   justify-items: center;
 }
@@ -224,4 +233,60 @@ body {
 
 .navBar {
   height: 100px;
+}
+
+button {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: medium;
+  font-style: normal;
+  color: #FFFDF7;
+  background-color: #32523A;
+  padding: 10px 15px;
+  margin: 2px 0px;
+  border: none;
+  width: 100px;
+  border-radius: 5px;
+}
+
+button:hover {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: medium;
+  font-style: normal;
+  color: #32523A;
+  background-color: #C1FF72;
+  padding: 10px 15px;
+  margin: 2px 0px;
+  border: none;
+  width: 100px;
+  border-radius: 5px;
+}
+
+.alternateButton:hover {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: medium;
+  font-style: normal;
+  color: #FFFDF7;
+  background-color: #32523A;
+  padding: 10px 15px;
+  margin: 5px 0px;
+  border: none;
+  width: 150px;
+  border-radius: 5px;
+}
+
+.alternateButton {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: medium;
+  font-style: normal;
+  color: #32523A;
+  background-color: #C1FF72;
+  padding: 10px 15px;
+  margin: 5px 0px;
+  border: none;
+  width: 150px;
+  border-radius: 5px;
 }

@@ -24,13 +24,21 @@ function LoginFormModal() {
       });
   };
 
+  const demoLogin = async () => {
+    await dispatch(sessionActions.login({
+      credential: "demouser",
+      password: "Password"
+    }))
+      .then(closeModal())
+  }
+
   return (
     <div className='displayFlex flexColumn alignCenter'>
       <img className='smallLogo' src={Logo} />
       <p className='header xx-largeFont noMargin almostBlackFont'>Log In</p>
       
         <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={handleSubmit}>
-          <label className='displayFlex spaceAround littleMoreTopPadding font almostBlackFont'>
+          <label className='largeFont displayFlex spaceAround topPadding font almostBlackFont'>
             Username
             <input
               type="text"
@@ -40,7 +48,7 @@ function LoginFormModal() {
               required
             />
           </label>
-          <label className='displayFlex littleTopPadding spaceAround font almostBlackFont'>
+          <label className='largeFont displayFlex topPadding spaceAround font almostBlackFont'>
             Password
             <input
               type="password"
@@ -53,7 +61,15 @@ function LoginFormModal() {
           {errors.credential && (
             <p>{errors.credential}</p>
           )}
-          <button type="submit">Log In</button>
+          <div className='textCenter littleMoreTopPadding'>
+            <button type="submit"
+                    className=''>Log In</button>
+          </div>
+          <div className='textCenter'>
+            <button type='submit'
+                    className='alternateButton'
+                    onClick={() => demoLogin()}>Demo Login</button>
+          </div>
         </form>
     
     </div>
