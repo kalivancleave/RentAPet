@@ -20,7 +20,17 @@ const GetAnimal = () => {
       <h1>Animal #{id}</h1>
       {console.log(animalInfo)}
       <h2>{animalInfo?.name}</h2>
-      <img src={animalInfo.animalImage} />
+      <img src={animalInfo?.animalImage} />
+      <p>{animalInfo?.averageStars}</p>
+      <p>{animalInfo?.type}</p>
+      <p>{animalInfo?.birthday}</p>
+      <p>{animalInfo?.price}</p>
+
+      <p>Reviews</p>
+      {/* import reviews display */}
+
+      <button>Reserve</button>
+      <p>Review This Pet</p>
     </>
   )
 
