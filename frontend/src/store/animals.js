@@ -53,7 +53,7 @@ const animalReducer = (state = initialState, action) => {
     case GET_ANIMALS:
       return { ...state, animals: action.payload };
     case GET_ONE_ANIMAL:
-      return { ...state, animalDetails: action.payload.animalDetails}
+      return { ...state, animalDetails: action.payload}
     default:
       return state;
   }
