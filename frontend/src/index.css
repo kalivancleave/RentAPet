@@ -93,6 +93,14 @@ body {
   margin: 5px;
 }
 
+.littleMoreMargin {
+  margin: 10px;
+}
+
+.margin {
+  margin: 15px;
+}
+
 .littleTopMargin {
   margin-top: 5px;
 }
@@ -232,6 +240,9 @@ body {
   align-items: flex-start;
 }
 
+.noDecoration {
+  text-decoration: none;
+}
 
 .navLink {
   text-decoration: none;
@@ -252,6 +263,11 @@ body {
   width: 250px;
   height: 350px;
   padding: 10px;
+  transition: top ease 300ms;
+}
+
+.frontPageCards:hover {
+  transform: translate(0, -10px);
 }
 
 .imageShape {

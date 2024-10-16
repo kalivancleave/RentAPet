@@ -15,25 +15,27 @@ function HomePage() {
   return(
     <>
       <h1>Home Page</h1>
-      <ol className="displayFlex noPadding flexWrap testBorder leftPageBorder">
+      <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder">
         {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
-          <div key={id} className="testBorder displayFlex flexColumn alignCenter frontPageCards">
-            <img className='imageShape' src={animalImage} />
-            <div className="displayFlex fullWidth spaceEvenly">
-              <div>
-                <p>{name}</p>
+          <div key={id} className="displayFlex flexColumn alignCenter littleMoreMargin dropShadow frontPageCards">
+            <NavLink to={`/${id}`} className='noDecoration displayFlex flexColumn alignCenter fullWidth'>
+              <img className='imageShape' src={animalImage} />
+              <div className="displayFlex fullWidth spaceEvenly">
+                <div>
+                  <p className="font almostBlackFont largeFont">{name}</p>
+                </div>
+                <div className="displayFlex alignCenter">
+                  <p>{averageRating}</p>
+                  <IoPawSharp />
+                </div>
               </div>
-              <div className="displayFlex alignCenter">
-                <p>{averageRating}</p>
-                <IoPawSharp />
-              </div>
-            </div>
-            <p>{birthday}</p>
-            <p>{price}</p>
-            <p>{type}</p>
+              <p>{birthday}</p>
+              <p>{price}</p>
+              <p>{type}</p>
+            </NavLink>
           </div>
         ))}
-      </ol>
+      </div>
     </>
   )
 }
