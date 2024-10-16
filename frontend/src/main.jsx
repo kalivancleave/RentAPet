@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
+import * as animalActions from './store/animals';
+import * as imageActions from './store/images'
 import { Modal, ModalProvider } from './context/Modal';
 
 const store = configureStore();
@@ -16,6 +18,8 @@ if (import.meta.env.MODE !== 'production') {
   window.csrfFetch = csrfFetch;
   window.store = store;
   window.sessionActions = sessionActions;
+  window.animalActions = animalActions;
+  window.imageActions = imageActions;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   padding: 0px;
+  background-color: #FFFDF7;
 }
 /* colors */
 
@@ -92,6 +93,14 @@ body {
   margin: 5px;
 }
 
+.littleMoreMargin {
+  margin: 10px;
+}
+
+.margin {
+  margin: 15px;
+}
+
 .littleTopMargin {
   margin-top: 5px;
 }
@@ -142,6 +151,14 @@ body {
 
 .littleMoreBottomPadding {
   padding-bottom: 10px;
+}
+
+.rightPadding {
+  padding-right: 20px;
+}
+
+.leftPadding {
+  padding-left: 20px;
 }
 
 /* general sizing */
@@ -199,6 +216,10 @@ body {
   justify-content: space-around;
 }
 
+.spaceEvenly {
+  justify-content: space-evenly;
+}
+
 .alignCenter {
   align-items: center;
 }
@@ -219,6 +240,9 @@ body {
   align-items: flex-start;
 }
 
+.noDecoration {
+  text-decoration: none;
+}
 
 .navLink {
   text-decoration: none;
@@ -233,6 +257,23 @@ body {
 
 .navBar {
   height: 100px;
+}
+
+.frontPageCards {
+  width: 250px;
+  height: 350px;
+  padding: 10px;
+  transition: top ease 300ms;
+}
+
+.frontPageCards:hover {
+  transform: translate(0, -10px);
+}
+
+.imageShape {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
 }
 
 button {
