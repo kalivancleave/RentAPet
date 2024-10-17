@@ -7,7 +7,8 @@ import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
 import * as animalActions from './store/animals';
-import * as imageActions from './store/images'
+import * as imageActions from './store/images';
+import * as reviewActions from './store/reviews';
 import { Modal, ModalProvider } from './context/Modal';
 
 const store = configureStore();
@@ -20,6 +21,7 @@ if (import.meta.env.MODE !== 'production') {
   window.sessionActions = sessionActions;
   window.animalActions = animalActions;
   window.imageActions = imageActions;
+  window.reviewActions = reviewActions;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
