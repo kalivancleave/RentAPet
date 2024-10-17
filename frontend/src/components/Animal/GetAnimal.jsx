@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 
 import { fetchOneAnimal } from '../../store/animals';
 
+import OpenModalButton from '../OpenModalButton';
+import ReserveFormModal from '../ReserveFormModal';
+
 const GetAnimal = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -29,7 +32,10 @@ const GetAnimal = () => {
       <p>Reviews</p>
       {/* import reviews display */}
 
-      <button>Reserve</button>
+      <OpenModalButton
+          buttonText="Reserve"
+          modalComponent={<ReserveFormModal />}
+        />
       <p>Review This Pet</p>
     </>
   )
