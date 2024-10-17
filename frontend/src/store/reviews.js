@@ -74,14 +74,14 @@ export const deleteReview = (reviewId) => async(dispatch) => {
   })
 
   if(response.ok) {
-    dispatch(destroyReview(id))
+    dispatch(destroyReview(reviewId))
   } else if (response.status < 500) {
     const data = await response.json();
     if (data.errors) return data.errors
   }
 }
 
-const initialState = {rewviews: [], isLoading: true}
+const initialState = {reviews: [], isLoading: true}
 
 //reducer
 const reviewReducer = (state = initialState, action) => {
