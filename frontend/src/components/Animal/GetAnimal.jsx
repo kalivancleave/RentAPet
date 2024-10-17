@@ -66,7 +66,7 @@ const GetAnimal = () => {
               <p>{displayMonth(createdAt.slice(5,7))} {createdAt.slice(0,4)}</p>
               <p>{review}</p>
               <p>{stars}</p>
-            <div>
+            <div className={User.id === user?.id ? "" : "visibilityHidden"}>
               <OpenModalButton
                   buttonText="Delete"
                   modalComponent={<DeleteReviewModal {...props}/>}

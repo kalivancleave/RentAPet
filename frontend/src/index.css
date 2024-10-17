@@ -331,3 +331,7 @@ button:hover {
   width: 150px;
   border-radius: 5px;
 }
+
+.visibilityHidden {
+  visibility: hidden;
+}
