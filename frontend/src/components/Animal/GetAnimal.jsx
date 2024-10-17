@@ -8,6 +8,7 @@ import { fetchAnimalReviews } from '../../store/reviews';
 import OpenModalButton from '../OpenModalButton';
 import ReserveFormModal from '../ReserveFormModal';
 import DeleteReviewModal from '../Reviews/DeleteReviewModal';
+import CreateReviewModal from '../Reviews/CreateReviewModal';
 
 
 const GetAnimal = () => {
@@ -80,7 +81,12 @@ const GetAnimal = () => {
           buttonText="Reserve"
           modalComponent={<ReserveFormModal />}
         />
-      <p>Review This Pet</p>
+
+
+      <OpenModalButton
+          buttonText="Review This Pet"
+          modalComponent={<CreateReviewModal animalId={id} />}
+        />
     </>
   )
 
