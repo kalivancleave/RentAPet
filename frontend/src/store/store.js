@@ -4,12 +4,14 @@ import sessionReducer from './session';
 import animalReducer from './animals';
 import imageReducer from './images';
 import reviewReducer from './reviews';
+import reservationReducer from './reservations';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   animals: animalReducer,
   images: imageReducer,
-  reviews: reviewReducer
+  reviews: reviewReducer,
+  reservations: reservationReducer
 });
 
 let enhancer;

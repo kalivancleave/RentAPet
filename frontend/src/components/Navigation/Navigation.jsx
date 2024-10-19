@@ -11,9 +11,10 @@ function Navigation({ isLoaded }) {
 
   const sessionLinks = sessionUser ?
     (
-      <li className=''>
+      <>
         <ProfileButton user={sessionUser} />
-      </li>
+        <NavLink to='/reservations'>My Reservations</NavLink>
+      </>
     ):(
       <OpenModalButton
           buttonText="Log In"
@@ -26,9 +27,7 @@ function Navigation({ isLoaded }) {
       <ul className='leftPadding rightPadding dropShadow alignCenter removeDecorations displayFlex spaceBetween navBar noMargin noPadding offWhite'>
         <li className='' >
           <NavLink to="/">
-            <a href=''>
-              <img className='logo' src={RentAPetLogo} />
-            </a>
+            <img className='logo' src={RentAPetLogo} />
           </NavLink>
         </li>
         <li className=''>

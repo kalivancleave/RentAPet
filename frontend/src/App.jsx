@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 import HomePage from './components/HomePage/HomePage';
 import GetAnimal from './components/Animal/GetAnimal';
 import * as sessionActions from './store/session';
+import GetReservationsPage from './components/Reservations/GetReservationsPage';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -35,7 +36,12 @@ const router = createBrowserRouter([
       {
         path: ':id',
         element: <GetAnimal />
+      },
+      {
+        path: '/reservations',
+        element: <GetReservationsPage />
       }
+
     ]
   }
 ]);
