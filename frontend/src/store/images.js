@@ -21,13 +21,13 @@ export const fetchImages = () => async (dispatch) => {
 }
 
 //create image
-
-export const createImage = (image, animalId) => async (dispatch) => {
-  const {url} = image
+export const createImage = (newImage) => async (dispatch) => {
+  const {animalId, url} = newImage
   const result = await csrfFetch(`/api/animals/${animalId}/images`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
+      animalId,
       url
     })
   })

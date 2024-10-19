@@ -58,14 +58,47 @@ router.get('/', async(req, res, next) => {
 
     for (let i = 0; i < animals.length; i++){
       const animal = animals[i]
+
+      //find all reviews with that animalId
+      const reviews = await Review.findAll({
+        where: {
+          animalId: animal.id
+        }
+      });
+
+      //find the sum of all stars
+      let sumOfStars = 0;
+      for (let j = 0; j < reviews.length; j++){
+        let review = reviews[j]
+        let starRating = review.stars
+        sumOfStars += starRating
+      }
+
+      //find the average of all the stars from the reviews table
+      const averageRating = (sumOfStars/reviews.length).toFixed(2)
+
+      //find the image for the animalId
+      const animalImage = await Image.findOne({
+        attributes: ['url'],
+        where: {
+          animalId: animal.id
+        }
+      });
       
       const payload = {
         id: parseInt(animal.id),
         ownerId: parseInt(animal.userId),
-          name: animal.name,
-          birthday: animal.birthday,
-          type: animal.type,
-          price: parseFloat(animal.price)
+        name: animal.name,
+        birthday: animal.birthday.toISOString().split('T')[0],
+        type: animal.type,
+        price: parseFloat(animal.price),
+        averageRating: parseFloat(averageRating)
+      }
+
+      if(!animalImage){
+        payload.animalImage = "https://res.cloudinary.com/djnfjzocb/image/upload/v1721880630/image-placeholder_xsvyni.png"
+      } else {
+        payload.animalImage = animalImage.url
       }
 
       updatedAnimals.push(payload)
@@ -111,7 +144,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         id: parseInt(animal.id),
         ownerId: parseInt(animal.userId),
           name: animal.name,
-          birthday: animal.birthday,
+          birthday: animal.birthday.toISOString().split('T')[0],
           type: animal.type,
           price: parseFloat(animal.price)
       }
@@ -146,11 +179,11 @@ router.get('/:animalId', async(req, res, next) => {
     }
 
     //find animal image with that id
-    const animalImage = await Image.findAll({
+    const animalImage = await Image.findOne({
+      attributes: ['url'],
       where: {
-        animalId: animalId
-      },
-      attributes: ['id', 'url']
+        animalId: animal.id
+      }
     });
 
     //find reviews with that id
@@ -183,13 +216,18 @@ router.get('/:animalId', async(req, res, next) => {
       id: parseInt(animal.id),
       ownerId: parseInt(animal.userId),
         name: animal.name,
-        birthday: animal.birthday,
+        birthday: animal.birthday.toISOString().split('T')[0],
         type: animal.type,
         price: parseFloat(animal.price),
         numReviews: parseInt(reviews.length),
         averageStars: parseFloat(averageRating),
-      Image: animalImage,
       Owner: owner
+    }
+
+    if(!animalImage){
+      updatedAnimal.animalImage = "https://res.cloudinary.com/djnfjzocb/image/upload/v1721880630/image-placeholder_xsvyni.png"
+    } else {
+      updatedAnimal.animalImage = animalImage.url
     }
 
     res.json(updatedAnimal)
@@ -367,7 +405,7 @@ router.post('/', requireAuth, validateAnimal, async(req, res, next) => {
       is: parseInt(newAnimal.id),
       userId: parseInt(newAnimal.userId),
       name: newAnimal.name,
-      birthday: newAnimal.birthday,
+      birthday: newAnimal.birthday.toISOString().split('T')[0],
       type: newAnimal.type,
       price: parseFloat(newAnimal.price)
     })
@@ -405,7 +443,7 @@ router.post('/:animalId/images', requireAuth, async (req, res, next) => {
       })
     }
 
-    //spot found
+    //animal found
     //destructure req.body
     const {url} = req.body;
 
@@ -448,7 +486,7 @@ router.post('/:animalId/reviews', requireAuth, validateReview, async(req, res, n
     const userReviewCheck = await Review.findOne({
       where: {
         userId: req.user.id,
-        spotId: spotId
+        animalId: animalId
       }
     });
 
@@ -466,7 +504,7 @@ router.post('/:animalId/reviews', requireAuth, validateReview, async(req, res, n
     //create a new review
     const newReview = await Review.create({
       userId: parseInt(req.user.id),
-      spotId: parseInt(spotId),
+      animalId: parseInt(animalId),
       review,
       stars
     });
@@ -644,7 +682,7 @@ router.put('/:animalId', requireAuth, validateAnimal, async (req, res, next) => 
 
     //items found or not found in req.body
     if(name){
-      nameUpdate = address
+      nameUpdate = name
     } else {
       nameUpdate = animal.name
     }
