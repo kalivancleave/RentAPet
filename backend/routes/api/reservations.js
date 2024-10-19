@@ -258,7 +258,7 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
   }
 })
 
-//delete a booking
+//delete a reservation
 router.delete(':/reservationId', requireAuth, async(req, res, next) => {
   try {
     //find reservation id
@@ -276,7 +276,7 @@ router.delete(':/reservationId', requireAuth, async(req, res, next) => {
     }
 
     //authorization - reservation must belong to current user OR animal belongs to current user
-    const animal = await Spot.findOne({
+    const animal = await Animal.findOne({
       where: {
         is: reservation.animalId
       }

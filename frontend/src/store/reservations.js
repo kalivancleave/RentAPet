@@ -47,7 +47,7 @@ export const deleteReservation = (reservationId) => async(dispatch) => {
     method: 'DELETE'
   })
 
-  if(response.ok){
+  if(response.ok) {
     dispatch(destroyReservation(reservationId))
   } else if (response.status < 500) {
     const data = await response.json();
@@ -55,8 +55,9 @@ export const deleteReservation = (reservationId) => async(dispatch) => {
   }
 }
 
-//reducer
 const initialState = {reservations: [], isLoading: true}
+
+//reducer
 
 const reservationReducer = (state = initialState, action) => {
   let newState = Object.assign({}, state)

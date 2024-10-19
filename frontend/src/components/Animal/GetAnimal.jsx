@@ -50,7 +50,9 @@ const GetAnimal = () => {
   return (
     <>
       <h1>Animal #{id}</h1>
-      {props.animalId = id}
+      <div className='visibilityHidden'>
+        {props.animalId = id}
+      </div>
       <div className={animalInfo?.ownerId === user?.id ? "" : "visibilityHidden"}>
         <OpenModalButton
             buttonText="Delete Animal"
@@ -77,7 +79,7 @@ const GetAnimal = () => {
       <div className='noDecoration'>
         {animalReviews?.map(({id, review, animalId, User, stars, createdAt}) => (
           <div key={id}>
-            {props.reviewId = id}
+              {props.reviewId = id}
               <p>{`${User.firstName} ${User.lastName}`}</p>
               <p>{displayMonth(createdAt.slice(5,7))} {createdAt.slice(0,4)}</p>
               <p>{review}</p>
