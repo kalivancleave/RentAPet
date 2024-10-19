@@ -9,6 +9,8 @@ import OpenModalButton from '../OpenModalButton';
 import ReserveFormModal from '../ReserveFormModal';
 import DeleteReviewModal from '../Reviews/DeleteReviewModal';
 import CreateReviewModal from '../Reviews/CreateReviewModal';
+import UpdateReviewModal from '../Reviews/UpdateReviewModal';
+import DeleteAnimalModal from './DeleteAnimalModal';
 
 
 const GetAnimal = () => {
@@ -48,6 +50,12 @@ const GetAnimal = () => {
     <>
       <h1>Animal #{id}</h1>
       {props.animalId = id}
+      <div className={animalInfo?.ownerId === user?.id ? "" : "visibilityHidden"}>
+        <OpenModalButton
+            buttonText="Delete Animal"
+            modalComponent={<DeleteAnimalModal {...props}/>}
+          />
+      </div>
       {console.log(animalInfo)}
       <h2>{animalInfo?.name}</h2>
       <img src={animalInfo?.animalImage} />
@@ -71,6 +79,12 @@ const GetAnimal = () => {
               <OpenModalButton
                   buttonText="Delete"
                   modalComponent={<DeleteReviewModal {...props}/>}
+                />
+            </div>
+            <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+              <OpenModalButton
+                  buttonText="Update"
+                  modalComponent={<UpdateReviewModal {...props}/>}
                 />
             </div>
           </div>

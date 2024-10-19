@@ -3,7 +3,7 @@ import { csrfFetch } from './csrf';
 //action creator definitions
 const GET_ANIMALS = 'animals/GET_ANIMALS';
 const GET_ONE_ANIMAL = 'animals/GET_ONE_ANIMAL';
-
+const DELETE_ANIMAL = 'animals/DELETE';
 
 //action creator
 const getAnimals = (animals) => ({
@@ -14,6 +14,11 @@ const getAnimals = (animals) => ({
 const getOneAnimal = (animalDetails) => ({
   type: GET_ONE_ANIMAL,
   payload: animalDetails
+})
+
+const destroyAnimal = (id) => ({
+  type: DELETE_ANIMAL,
+  payload: id
 })
 
 //thunks
@@ -45,15 +50,36 @@ export const fetchOneAnimal = (animalId) => async(dispatch) => {
   }
 }
 
+
+//delete animal
+export const deleteAnimal = (animalId) => async(dispatch) => {
+  const response = await csrfFetch(`api/animals/${animalId}`, {
+    method: 'DELETE'
+  })
+
+  if(response.ok) {
+    dispatch(destroyAnimal(animalId))
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) return data.errors
+  }
+}
+
 //reducer
 const initialState = { animals: null };
 
 const animalReducer = (state = initialState, action) => {
+  let newState = Object.assign({}, state)
   switch(action.type) {
     case GET_ANIMALS:
       return { ...state, animals: action.payload };
     case GET_ONE_ANIMAL:
       return { ...state, animalDetails: action.payload}
+    case DELETE_ANIMAL:
+      delete newState[action.payload]
+      delete newState.arr
+      newState.arr = Object.values(newState)
+      return newState
     default:
       return state;
   }

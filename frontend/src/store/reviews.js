@@ -67,6 +67,27 @@ export const createReview = (reviewDetails) => async(dispatch) => {
   }
 }
 
+//update a review
+export const updateReview = (updatedReview) => async (dispatch) => {
+  const { id, review, stars } = updatedReview;
+  const response = await csrfFetch(`api/reviews/${id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      review,
+      stars
+    })
+  });
+
+  if(response.ok){
+    const data = response.json();
+    dispatch(fetchAnimalReviews(data.animalId))
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if(data.errors) return data.errors;
+  }
+}
+
 //delete a review
 export const deleteReview = (reviewId) => async(dispatch) => {
   const response = await csrfFetch(`api/reviews/${reviewId}`, {
