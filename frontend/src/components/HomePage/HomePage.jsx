@@ -4,9 +4,13 @@ import { fetchAnimals } from "../../store/animals";
 import { NavLink } from "react-router-dom";
 import { IoPawSharp } from "react-icons/io5";
 
+import OpenModalButton from "../OpenModalButton";
+import CreateAnimalModal from "../Animal/CreateAnimalModal";
+
 function HomePage() {
   const dispatch = useDispatch();
   const animalsList = useSelector(state => state.animals.animals?.Animals);
+  const sessionUser = useSelector(state => state.session.user);
 
   useEffect(() => {
     dispatch(fetchAnimals());
@@ -15,6 +19,14 @@ function HomePage() {
   return(
     <>
       <h1>Home Page</h1>
+
+      <div className={sessionUser ? "" : "visibilityHidden"}>
+        <OpenModalButton
+            buttonText="Create Animal"
+            modalComponent={<CreateAnimalModal userId={sessionUser.id}/>}
+          />
+      </div>
+
       <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder">
         {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
           <div key={id} className="displayFlex flexColumn alignCenter littleMoreMargin dropShadow frontPageCards">

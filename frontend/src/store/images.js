@@ -21,7 +21,6 @@ export const fetchImages = () => async (dispatch) => {
 }
 
 //create image
-
 export const createImage = (image, animalId) => async (dispatch) => {
   const {url} = image
   const result = await csrfFetch(`/api/animals/${animalId}/images`, {

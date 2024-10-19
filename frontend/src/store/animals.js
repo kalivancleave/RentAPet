@@ -50,6 +50,34 @@ export const fetchOneAnimal = (animalId) => async(dispatch) => {
   }
 }
 
+//create animal
+export const createAnimal = (animalDetails) => async(dispatch) => {
+  const {name, birthday, type, price, userId} = animalDetails
+  const response = await csrfFetch(`api/animals/`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      userId,
+      name,
+      birthday,
+      type,
+      price
+    })
+  })
+
+  if(response.ok) {
+    const data = await response.json();
+    dispatch(fetchAnimals())
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) return data.errors;
+  } else {
+    const data = await response.json();
+    data.errors.push(['A server error occurred.'])
+    return data.errors
+  }
+}
+
 
 //delete animal
 export const deleteAnimal = (animalId) => async(dispatch) => {
