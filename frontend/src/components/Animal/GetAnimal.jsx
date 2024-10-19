@@ -11,6 +11,7 @@ import DeleteReviewModal from '../Reviews/DeleteReviewModal';
 import CreateReviewModal from '../Reviews/CreateReviewModal';
 import UpdateReviewModal from '../Reviews/UpdateReviewModal';
 import DeleteAnimalModal from './DeleteAnimalModal';
+import UpdateAnimalModal from './UpdateAnimalModal';
 
 
 const GetAnimal = () => {
@@ -54,6 +55,12 @@ const GetAnimal = () => {
         <OpenModalButton
             buttonText="Delete Animal"
             modalComponent={<DeleteAnimalModal {...props}/>}
+          />
+      </div>
+      <div className={animalInfo?.ownerId === user?.id ? "" : "visibilityHidden"}>
+        <OpenModalButton
+            buttonText="Update Animal"
+            modalComponent={<UpdateAnimalModal {...props}/>}
           />
       </div>
       {console.log(animalInfo)}

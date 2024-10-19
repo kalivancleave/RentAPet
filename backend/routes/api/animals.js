@@ -443,7 +443,7 @@ router.post('/:animalId/images', requireAuth, async (req, res, next) => {
       })
     }
 
-    //spot found
+    //animal found
     //destructure req.body
     const {url} = req.body;
 
@@ -682,7 +682,7 @@ router.put('/:animalId', requireAuth, validateAnimal, async (req, res, next) => 
 
     //items found or not found in req.body
     if(name){
-      nameUpdate = address
+      nameUpdate = name
     } else {
       nameUpdate = animal.name
     }

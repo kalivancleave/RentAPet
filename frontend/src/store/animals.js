@@ -78,6 +78,28 @@ export const createAnimal = (animalDetails) => async(dispatch) => {
   }
 }
 
+//update an animal
+export const updateAnimal = (updatedAnimal) => async(dispatch) => {
+  const { id, name, birthday, type, price } = updatedAnimal;
+  const response = await csrfFetch(`api/animals/${id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name, 
+      birthday,
+      type,
+      price
+    })
+  });
+
+  if(response.ok){
+    const data = response.json();
+    dispatch(fetchOneAnimal(data.id))
+  } else if (respoinse.status < 500) {
+    const data = await response.json();
+    if(data.errors) return data.errors;
+  }
+}
 
 //delete animal
 export const deleteAnimal = (animalId) => async(dispatch) => {
