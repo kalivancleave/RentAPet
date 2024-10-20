@@ -145,6 +145,10 @@ body {
   padding-top: 15px;
 }
 
+.moreTopPadding {
+  padding-top: 20px;
+}
+
 .littleBottomPadding {
   padding-bottom: 5px;
 }
@@ -230,6 +234,10 @@ body {
 
 .justifyCenter {
   justify-items: center;
+}
+
+.justifyRight {
+  justify-items: right;
 }
 
 .alignBottom {
@@ -330,6 +338,28 @@ button:hover {
   border: none;
   width: 150px;
   border-radius: 5px;
+}
+
+.subtleButton {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: medium;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  text-decoration: underline;
+  width: 100%;
+}
+
+.subtleButton:hover {
+  font-family: "Rancho", cursive;
+  font-weight: bold;
+  font-size: medium;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  text-decoration: underline;
+  width: 100%;
 }
 
 .visibilityHidden {
