@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../context/Modal';
+import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 
@@ -14,7 +13,6 @@ function ProfileButton({ user }) {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
-  const { setModalContent } = useModal();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -43,8 +41,6 @@ function ProfileButton({ user }) {
       .then(() => navigate('/'))
     closeMenu();
   };
-
-  const ulClassName = "profileMenu" + (showMenu ? "" : "Hidden");
 
   return (
     <>

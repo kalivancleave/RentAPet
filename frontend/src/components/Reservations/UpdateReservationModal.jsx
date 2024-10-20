@@ -28,6 +28,7 @@ const UpdateReservationModal = (props) => {
   }
 
   const handleUpdate = (e) => {
+    setErrors({})
     e.preventDefault();
     return dispatch(updateReservation(updatedReservation))
     .then(async function refreshReservationDetails() {
@@ -56,6 +57,8 @@ const UpdateReservationModal = (props) => {
               min={formattedDate}
             />
         </label>
+        {errors.uStartDate && <p>{errors.uStartDate}</p>}
+
         <label>
           End Date
             <input
@@ -64,6 +67,7 @@ const UpdateReservationModal = (props) => {
               value={uEndDate}
             />
         </label>
+        {errors.uEndDate && <p>{errors.uEndDate}</p>}
 
         <button onClick={handleUpdate}>Update</button>
 

@@ -17,9 +17,9 @@ const UpdateAnimalModal = (props) => {
   const [uPrice, setPrice] = useState(currentAnimal?.price)
 
   const [imageSelected, setImageSelected] = useState("");
-  const [readyToSubmit, setReadyToSubmit] = useState(false);
-  const [uploadPhoto, setUploadPhoto] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [readyToSubmit, setReadyToSubmit] = useState(false);
+  // const [uploadPhoto, setUploadPhoto] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [imageToUpload, setImageToUpload] = useState('');
 
   const { closeModal } = useModal();
@@ -28,7 +28,7 @@ const UpdateAnimalModal = (props) => {
   let imageURL;
   const uploadImage = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const formData = new FormData()
     formData.append('file', imageSelected)
     formData.append("upload_preset", "rentapet")
@@ -46,9 +46,9 @@ const UpdateAnimalModal = (props) => {
     setImageToUpload(imageURL)
     
 
-    setUploadPhoto(true) //validation
-    setReadyToSubmit(true)
-    setIsLoading(false)
+    // setUploadPhoto(true) //validation
+    // setReadyToSubmit(true)
+    // setIsLoading(false)
   } 
 
   async function wait() {
