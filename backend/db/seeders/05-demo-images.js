@@ -13,23 +13,23 @@ if (process.env.NODE_ENV === 'production') {
 const images = [
   {
     animalId: 1,
-    url: 'url.png'
+    url: 'https://res.cloudinary.com/djnfjzocb/image/upload/v1729033065/dog_ycgcxq.png'
   },
   {
     animalId: 2,
-    url: 'url.png'
+    url: 'https://res.cloudinary.com/djnfjzocb/image/upload/v1729033065/cat_bcnwib.png'
   },
   {
     animalId: 3,
-    url: 'url.png'
+    url: 'https://res.cloudinary.com/djnfjzocb/image/upload/v1729033065/snake_orsjjb.png'
   },
   {
     animalId: 4,
-    url: 'url.png'
+    url: 'https://res.cloudinary.com/djnfjzocb/image/upload/v1729033065/horse_lw7mtc.png'
   },
   {
     animalId: 5,
-    url: 'url.png'
+    url: 'https://res.cloudinary.com/djnfjzocb/image/upload/v1729033065/dog_1_tpswoq.png'
   }
 ]
 
