@@ -32,6 +32,7 @@ const UpdateReviewModal = (props) => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
+    setErrors({})
     return dispatch(updateReview(updatedReview))
     .then(async function refreshReviewDetails() {
       dispatch(fetchAnimalReviews(props.animalId))

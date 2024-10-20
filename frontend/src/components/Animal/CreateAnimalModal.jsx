@@ -4,7 +4,6 @@ import { useModal } from "../../context/Modal";
 
 import { createAnimal } from "../../store/animals";
 import { fetchAnimals } from "../../store/animals";
-import { createImage } from "../../store/images";
 
 const CreateAnimalModal = (props) => {
   const dispatch = useDispatch();
@@ -24,6 +23,8 @@ const CreateAnimalModal = (props) => {
   }
 
   const animalDetails = async () => {
+    setErrors({})
+
     let newAnimal = {}
 
       newAnimal.userId = userId,
@@ -59,6 +60,7 @@ const CreateAnimalModal = (props) => {
             value={name}
           />
         </label>
+        {errors.name && <p>{errors.name}</p>}
 
         <label>
           Birthday
@@ -68,7 +70,7 @@ const CreateAnimalModal = (props) => {
             value={birthday}
             min='1980-01-01'
           />
-        </label>
+        </label>.{errors.birthday && <p>{errors.birthday}</p>}
 
         <label>
           Type
@@ -97,6 +99,7 @@ const CreateAnimalModal = (props) => {
           </select>
           <p className="visibilityHidden">Selected Type: {type}</p>
         </label>
+        {errors.type && <p>{errors.type}</p>}
 
         <label>
           Price
@@ -108,6 +111,7 @@ const CreateAnimalModal = (props) => {
             placeholder="Price per night (USD)"
           />
         </label>
+        {errors.price && <p>{errors.price}</p>}
 
         <button type="submit">Create Animal</button>
 

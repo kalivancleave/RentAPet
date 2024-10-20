@@ -6,7 +6,6 @@ import { fetchOneAnimal } from '../../store/animals';
 import { fetchAnimalReviews } from '../../store/reviews';
 
 import OpenModalButton from '../OpenModalButton';
-import ReserveFormModal from '../ReserveFormModal';
 import DeleteReviewModal from '../Reviews/DeleteReviewModal';
 import CreateReviewModal from '../Reviews/CreateReviewModal';
 import UpdateReviewModal from '../Reviews/UpdateReviewModal';
@@ -84,7 +83,7 @@ const GetAnimal = () => {
       {/* import reviews display */}
       {console.log(animalReviews)}
       <div className='noDecoration'>
-        {animalReviews?.map(({id, review, animalId, User, stars, createdAt}) => (
+        {animalReviews?.map(({id, review, User, stars, createdAt}) => (
           <div key={id}>
               {props.reviewId = id}
               <p>{`${User.firstName} ${User.lastName}`}</p>

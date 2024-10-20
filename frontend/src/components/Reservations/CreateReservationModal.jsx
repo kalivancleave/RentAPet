@@ -56,6 +56,8 @@ function CreateReservationModal(props) {
               min={formattedDate}
             />
         </label>
+        {errors.startDate && <p>{errors.startDate}</p>}
+
         <label>
           End Date
             <input
@@ -64,6 +66,7 @@ function CreateReservationModal(props) {
               value={endDate}
             />
         </label>
+        {errors.endDate && <p>{errors.endDate}</p>}
 
         <button onClick={handleSubmit}>Reserve Now!</button>
       </form>

@@ -66,7 +66,6 @@ export const createAnimal = (animalDetails) => async(dispatch) => {
   })
 
   if(response.ok) {
-    const data = await response.json();
     dispatch(fetchAnimals())
   } else if (response.status < 500) {
     const data = await response.json();
@@ -95,7 +94,7 @@ export const updateAnimal = (updatedAnimal) => async(dispatch) => {
   if(response.ok){
     const data = response.json();
     dispatch(fetchOneAnimal(data.id))
-  } else if (respoinse.status < 500) {
+  } else if (response.status < 500) {
     const data = await response.json();
     if(data.errors) return data.errors;
   }
