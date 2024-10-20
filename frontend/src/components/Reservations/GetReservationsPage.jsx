@@ -5,6 +5,7 @@ import { fetchReservations } from "../../store/reservations";
 
 import OpenModalButton from "../OpenModalButton";
 import DeleteReservationModal from "./DeleteReservationModal";
+import UpdateReservationModal from "./UpdateReservationModal";
 
 function GetReservationsPage() {
   const dispatch = useDispatch();
@@ -37,6 +38,13 @@ function GetReservationsPage() {
             <p>{Animal?.name}</p>
             <p>{startDate}</p>
             <p>{endDate}</p>
+
+            <div className={userId === user?.id ? "" : "visibilityHidden"}>
+              <OpenModalButton
+                  buttonText="Update"
+                  modalComponent={<UpdateReservationModal {...props}/>}
+                />
+            </div>
 
             <div className={userId === user?.id ? "" : "visibilityHidden"}>
               <OpenModalButton

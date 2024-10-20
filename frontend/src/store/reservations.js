@@ -66,6 +66,27 @@ export const createReservation = (reservationDetails) => async(dispatch) => {
   }
 }
 
+//update a reservation
+export const updateReservation = (updatedReservation) => async(dispatch) => {
+  const { id, startDate, endDate } = updatedReservation;
+  const response = await csrfFetch(`api/reservations/${id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      startDate,
+      endDate
+    })
+  });
+
+  if(response.ok){
+    const data = response.json();
+    dispatch(fetchAnimalReservations(data.animalId))
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if(data.errors) return data.errors;
+  }
+}
+
 //delete a reservation
 export const deleteReservation = (reservationId) => async(dispatch) => {
   const response = await csrfFetch(`api/reservations/${reservationId}`, {
