@@ -68,7 +68,7 @@ const GetAnimal = () => {
       </div>
       {console.log(animalInfo)}
       <h2>{animalInfo?.name}</h2>
-      <div className={user && user.id !== animalInfo.ownerId ? "" : "visibilityHidden"}>
+      <div className={user && user.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
         <OpenModalButton
             buttonText="Reserve"
             modalComponent={<CreateReservationModal {...props}/>}
@@ -106,12 +106,6 @@ const GetAnimal = () => {
           </div>
         ))}
       </div>
-
-      <OpenModalButton
-          buttonText="Reserve"
-          modalComponent={<ReserveFormModal />}
-        />
-
 
       <OpenModalButton
           buttonText="Review This Pet"
