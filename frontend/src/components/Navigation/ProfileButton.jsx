@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import { useNavigate } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -42,22 +42,39 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
+  function sendAlert() {
+    alert("Feature coming soon!")
+  }
+
   return (
     <>
-      <div className='xx-largeFont noPadding noMargin noBackground noBorder' onClick={toggleMenu}>
+      <div className='userIconFont noPadding rightPageBorder noBackground noBorder darkGreenFont' onClick={toggleMenu}>
         <FaUserCircle />
       </div>
       {showMenu && (
-        <ul className='profile-dropdown removeDecorations dropShadow' ref={ulRef}>
+        <ul className='profile-dropdown removeDecorations lotsOfRightPadding dropShadow offWhite' ref={ulRef}>
           {user ? (
-            <>
-              <li>{user.username}</li>
-              <li>{user.firstName} {user.lastName}</li>
-              <li>{user.email}</li>
-              <li>
+            <div className='displayFlex flexColumn alignCenter'>
+              <p className='largeFont displayFlex font almostBlackFont'>Hello, {user.firstName}</p>
+
+              <p className='subtleButton' onClick={sendAlert}>
+                My Pets
+              </p>
+
+              <NavLink 
+                className="noDecoration subtleButton"
+                to='/reservations'>
+                  My Reservations
+              </NavLink>
+
+              <p className='subtleButton' onClick={sendAlert}>
+                My Reviews
+              </p>
+              
+              <div className='bottomMargin'>
                 <button onClick={logout}>Log Out</button>
-              </li>
-            </>
+              </div>
+            </div>
           ) : (
             <>
               <OpenModalButton

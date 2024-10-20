@@ -13,7 +13,6 @@ function Navigation({ isLoaded }) {
     (
       <>
         <ProfileButton user={sessionUser} />
-        <NavLink to='/reservations'>My Reservations</NavLink>
       </>
     ):(
       <div className='displayFlex flexColumn'>

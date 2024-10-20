@@ -56,6 +56,10 @@ body {
 }
 
 /* font sizes */
+.userIconFont {
+  font-size: 40px;
+}
+
 .xx-largeFont {
   font-size: xx-large;
 }
@@ -103,6 +107,10 @@ body {
 
 .littleTopMargin {
   margin-top: 5px;
+}
+
+.bottomMargin {
+  margin-bottom: 10px;
 }
 
 .leftPageBorder {
@@ -159,6 +167,10 @@ body {
 
 .rightPadding {
   padding-right: 20px;
+}
+
+.lotsOfRightPadding {
+  padding-right: 40px;
 }
 
 .leftPadding {
