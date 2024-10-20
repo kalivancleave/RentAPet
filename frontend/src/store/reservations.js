@@ -41,6 +41,31 @@ export const fetchAnimalReservations = (animalId) => async(dispatch) => {
   }
 }
 
+//create a reservation
+export const createReservation = (reservationDetails) => async(dispatch) => {
+  const { startDate, endDate, animalId } = reservationDetails
+  const response = await csrfFetch(`api/animals/${animalId}/reservations`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      startDate,
+      endDate
+    })
+  })
+
+  if(response.ok) {
+    const data = await response.json();
+    dispatch(fetchAnimalReservations(data.id))
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) return data.errors;
+  } else {
+    const data = await response.json();
+    data.errors.push(['A server error occurred.'])
+    return data.errors
+  }
+}
+
 //delete a reservation
 export const deleteReservation = (reservationId) => async(dispatch) => {
   const response = await csrfFetch(`api/reservations/${reservationId}`, {

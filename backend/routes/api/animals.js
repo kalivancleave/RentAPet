@@ -518,7 +518,7 @@ router.post('/:animalId/reviews', requireAuth, validateReview, async(req, res, n
   }
 })
 
-router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
+router.post('/:animalId/reservations', requireAuth, async (req, res, next) => {
   try {
     //find animal id
     const animalId = req.params.animalId;
@@ -535,15 +535,15 @@ router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
     };
 
     //animal found
-    //find all bookings for that animal id before adding another
+    //find all reservations for that animal id before adding another
     const reservations = await Reservation.findAll({
       where: {
-        spotId: spotId
+        animalId: animalId
       }
     });
 
     //animal must NOT belong to current user
-    if(spot.userId === req.user.id){
+    if(animal.userId === req.user.id){
       res.status(403)
       return res.json({
         message: 'Forbidden'
@@ -555,11 +555,11 @@ router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
 
     //check and make sure there are no date conflicts
     let minAllowedDate = new Date()
-    let newBookingStartDate = new Date(startDate).getTime();
-    let newBookingEndDate = new Date(endDate).getTime();
+    let newReservationStartDate = new Date(startDate).getTime();
+    let newReservationEndDate = new Date(endDate).getTime();
 
     //400 - bad requests
-    if(newBookingEndDate <= newBookingStartDate){
+    if(newReservationEndDate <= newReservationStartDate){
       res.status(400)
       return res.json({
         message: "Bad Request",
@@ -567,7 +567,7 @@ router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
           endDate: "End date cannot be on or before start date."
         }
       })
-    } else if (newBookingStartDate < minAllowedDate){
+    } else if (newReservationStartDate < minAllowedDate){
       res.status(400)
       return res.json({
         message: "Bad Request",
@@ -587,7 +587,7 @@ router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
       let date2 = new Date(reservation.endDate).getTime();
 
       //errors if dates overlap
-      if(newBookingEndDate >= date1 && newBookingEndDate <= date2){
+      if(newReservationEndDate >= date1 && newReservationEndDate <= date2){
         res.status(403)
         return res.json({
           message: "Sorry, this animal is already reserved for these specific dates",
@@ -596,7 +596,7 @@ router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
             endDate: "End date conflices with an existing reservation."
           }
         })
-      } else if (newBookingStartDate >= date1 && newBookingStartDate <= date2){
+      } else if (newReservationStartDate >= date1 && newReservationStartDate <= date2){
         res.status(403)
         return res.json({
           message: "Sorry, this animal is already reserved for these specific dates",
@@ -605,7 +605,7 @@ router.post('/:animalId/bookings', requireAuth, async (req, res, next) => {
             endDate: "End date conflices with an existing reservation."
           }
         })
-      } else if (newBookingStartDate <= date1 && newBookingEndDate >= date2){
+      } else if (newReservationStartDate <= date1 && newReservationEndDate >= date2){
         res.status(403)
         return res.json({
           message: "Sorry, this animal is already reserved for these specific dates",

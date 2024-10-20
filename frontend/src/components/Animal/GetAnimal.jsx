@@ -12,6 +12,7 @@ import CreateReviewModal from '../Reviews/CreateReviewModal';
 import UpdateReviewModal from '../Reviews/UpdateReviewModal';
 import DeleteAnimalModal from './DeleteAnimalModal';
 import UpdateAnimalModal from './UpdateAnimalModal';
+import CreateReservationModal from '../Reservations/CreateReservationModal';
 
 
 const GetAnimal = () => {
@@ -67,6 +68,12 @@ const GetAnimal = () => {
       </div>
       {console.log(animalInfo)}
       <h2>{animalInfo?.name}</h2>
+      <div className={user && user.id !== animalInfo.ownerId ? "" : "visibilityHidden"}>
+        <OpenModalButton
+            buttonText="Reserve"
+            modalComponent={<CreateReservationModal {...props}/>}
+          />
+      </div>
       <img src={animalInfo?.animalImage} />
       <p>{animalInfo?.averageStars}</p>
       <p>{animalInfo?.type}</p>

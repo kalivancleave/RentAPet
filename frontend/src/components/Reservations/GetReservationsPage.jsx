@@ -33,8 +33,8 @@ function GetReservationsPage() {
               {props.reservationId = id}
               {props.animalId = animalId}
             </div>
-            <img src={Animal.Image.url} />
-            <p>{Animal.name}</p>
+            <img src={Animal?.Image.url} />
+            <p>{Animal?.name}</p>
             <p>{startDate}</p>
             <p>{endDate}</p>
 
