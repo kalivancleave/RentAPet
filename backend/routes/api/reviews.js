@@ -202,7 +202,7 @@ router.delete('/:reviewId', requireAuth, async(req, res, next) => {
       })
     }
 
-    //confirm that the review user is is the current user id
+    //confirm that the review user id is the current user id
     if(review.userId !== req.user.id){
       res.status(403)
       return res.json({

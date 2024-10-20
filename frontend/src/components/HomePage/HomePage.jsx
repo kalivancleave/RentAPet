@@ -20,10 +20,10 @@ function HomePage() {
     <>
       <h1>Home Page</h1>
 
-      <div className={sessionUser ? "" : "visibilityHidden"}>
+      <div className={!sessionUser ? "visibilityHidden" : ""}>
         <OpenModalButton
             buttonText="Create Animal"
-            modalComponent={<CreateAnimalModal userId={sessionUser.id}/>}
+            modalComponent={<CreateAnimalModal userId={sessionUser?.id}/>}
           />
       </div>
 

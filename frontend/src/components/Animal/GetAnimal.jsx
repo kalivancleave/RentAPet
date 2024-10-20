@@ -12,6 +12,7 @@ import CreateReviewModal from '../Reviews/CreateReviewModal';
 import UpdateReviewModal from '../Reviews/UpdateReviewModal';
 import DeleteAnimalModal from './DeleteAnimalModal';
 import UpdateAnimalModal from './UpdateAnimalModal';
+import CreateReservationModal from '../Reservations/CreateReservationModal';
 
 
 const GetAnimal = () => {
@@ -50,7 +51,9 @@ const GetAnimal = () => {
   return (
     <>
       <h1>Animal #{id}</h1>
-      {props.animalId = id}
+      <div className='visibilityHidden'>
+        {props.animalId = id}
+      </div>
       <div className={animalInfo?.ownerId === user?.id ? "" : "visibilityHidden"}>
         <OpenModalButton
             buttonText="Delete Animal"
@@ -65,6 +68,12 @@ const GetAnimal = () => {
       </div>
       {console.log(animalInfo)}
       <h2>{animalInfo?.name}</h2>
+      <div className={user && user.id !== animalInfo.ownerId ? "" : "visibilityHidden"}>
+        <OpenModalButton
+            buttonText="Reserve"
+            modalComponent={<CreateReservationModal {...props}/>}
+          />
+      </div>
       <img src={animalInfo?.animalImage} />
       <p>{animalInfo?.averageStars}</p>
       <p>{animalInfo?.type}</p>
@@ -77,7 +86,7 @@ const GetAnimal = () => {
       <div className='noDecoration'>
         {animalReviews?.map(({id, review, animalId, User, stars, createdAt}) => (
           <div key={id}>
-            {props.reviewId = id}
+              {props.reviewId = id}
               <p>{`${User.firstName} ${User.lastName}`}</p>
               <p>{displayMonth(createdAt.slice(5,7))} {createdAt.slice(0,4)}</p>
               <p>{review}</p>

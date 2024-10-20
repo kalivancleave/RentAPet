@@ -31,7 +31,6 @@ function DeleteReviewModal(props) {
   return(
     <>
       <h1>Delete Review Modal</h1>
-      {console.log(JSON.stringify(props))}
       <p>Are you sure you want to delete this review?</p>
       <button onClick={() => deleteReviewFunction()}>Yes</button>
       <button onClick={doNotDelete}>No</button>

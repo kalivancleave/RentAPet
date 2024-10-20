@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import RentAPetLogo from '../../../../static/rentAPetLogoDark.png';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
+import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import OpenModalButton from '../OpenModalButton';
 import './Navigation.css';
 
@@ -11,14 +12,23 @@ function Navigation({ isLoaded }) {
 
   const sessionLinks = sessionUser ?
     (
-      <li className=''>
+      <>
         <ProfileButton user={sessionUser} />
-      </li>
+        <NavLink to='/reservations'>My Reservations</NavLink>
+      </>
     ):(
-      <OpenModalButton
+      <>
+        <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
         />
+
+        <OpenModalButton
+          buttonText="Register"
+          modalComponent={<SignupFormModal />}
+        />
+      
+      </>
     );
 
   return (
@@ -26,9 +36,7 @@ function Navigation({ isLoaded }) {
       <ul className='leftPadding rightPadding dropShadow alignCenter removeDecorations displayFlex spaceBetween navBar noMargin noPadding offWhite'>
         <li className='' >
           <NavLink to="/">
-            <a href=''>
-              <img className='logo' src={RentAPetLogo} />
-            </a>
+            <img className='logo' src={RentAPetLogo} />
           </NavLink>
         </li>
         <li className=''>

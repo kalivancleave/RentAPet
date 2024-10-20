@@ -157,7 +157,7 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
     });
 
     //find all the reservations for the animal id (this should exclude the current deleted reservation)
-    const animal = await Animal.findByPk(booking.animalId)
+    const animal = await Animal.findByPk(reservation.animalId)
 
     const reservations = await Reservation.findAll({
       where: {
@@ -175,7 +175,7 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
 
       //errors if overlap
       if(newReservationEndDate >= date1 && newReservationEndDate <= date2){
-        //restore booking
+        //restore reservation
         await reservation.update({
           startDate: originalStartDate,
           endDate: originalEndDate
@@ -190,7 +190,7 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
             }
           })
         } else if(newReservationStartDate >= date1 && newReservationStartDate <= date2){
-          //restore booking
+          //restore reservation
           await reservation.update({
             startDate: originalStartDate,
             endDate: originalEndDate
@@ -205,7 +205,7 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
             }
           })
         } else if(newReservationStartDate <= date1 && newReservationEndDate >= date2){
-          //restore booking
+          //restore reservation
           await reservation.update({
             startDate: originalStartDate,
             endDate: originalEndDate
@@ -219,9 +219,9 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
               endDate: 'End date conflicts with an existing reservation'
             }
           })
-        } else if(newBookingEndDate <= today){
-          //restore booking
-          await booking.update({
+        } else if(newReservationEndDate <= today){
+          //restore reservation
+          await reservation.update({
             startDate: originalStartDate,
             endDate: originalEndDate
           });
@@ -229,6 +229,12 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
           res.status(403)
           return res.json({
             message: "Past reservations can't be modified"
+          })
+        } else if(newReservationStartDate === undefined || newReservationEndDate === undefined) {
+          //restore reservation
+          await reservation.update({
+            startDate: originalStartDate,
+            endDate: originalEndDate
           })
         }; 
       }
@@ -258,60 +264,61 @@ router.put('/:reservationId', requireAuth, async (req, res, next) => {
   }
 })
 
-//delete a booking
-router.delete(':/reservationId', requireAuth, async(req, res, next) => {
+//delete a reservation
+router.delete('/:reservationId', requireAuth, async(req, res, next) => {
   try {
     //find reservation id
     const reservationId = req.params.reservationId;
 
-    //find reservation by id
+    //find resercation by id
     const reservation = await Reservation.findByPk(reservationId);
 
-    //404 - no reservation found
+    //404 - no booking found
     if(!reservation){
-      res.staus(404)
+      res.status(404)
       return res.json({
         message: "Reservation couldn't be found"
       })
-    }
+    };
 
-    //authorization - reservation must belong to current user OR animal belongs to current user
-    const animal = await Spot.findOne({
+    //authorization - reservation must belong to current user OR reserved animal belongs to current user
+    const animal = await Animal.findOne({
       where: {
-        is: reservation.animalId
+        id: reservation.animalId
       }
-    })
+    });
 
     if(reservation.userId !== req.user.id && animal.userId !== req.user.id){
       res.status(403)
       return res.json({
         message: "Forbidden"
       })
-    }
+    };
 
-    //403 - reservation already started can't be deleted
+    //403 - reservation already started
     const today = new Date().getTime();
     const startDate = new Date(reservation.startDate).getTime();
 
     if(startDate <= today){
       res.status(403)
       return res.json({
-        message: "Reservations that have started cannot be deleted"
+        message: "Reservations that have started can't be deleted"
       })
-    }
+    };
 
-    //booking passes all restrictions - destroy
-    const resToDestroy = await reservation.destroy();
+    //reservation passes all restrictions - destroy
+    const destroyedReservation = await reservation.destroy();
 
     //return requested response
     res.json({
       message: "Successfully deleted"
-    })
+    });
     
   } catch (error) {
     next(error)
   }
 })
+
 
 
 module.exports = router;
