@@ -11,8 +11,8 @@ const getImages = (images) => ({
 
 //thunks
 //get all images
-export const fetchImages = () => async (dispatch) => {
-  const response = await fetch(`api/animals/:animalId`);
+export const fetchImages = (animalId) => async (dispatch) => {
+  const response = await fetch(`api/animals/${animalId}`);
 
   if(response.ok) {
     const images = await response.json();
@@ -47,7 +47,7 @@ const initialState = { images: [], isLoading: true}
 const imageReducer = (state = initialState, action) => {
   switch(action.type) {
     case GET_IMAGES:
-      return {...state, images: [action.payload.Images]}
+      return {...state, images: [action.payload]}
     default:
       return state;
   }

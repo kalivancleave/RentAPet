@@ -100,7 +100,6 @@ const UpdateAnimalModal = (props) => {
             type='file'
             accept='.jpeg, .png, .jpg'
             className='blackBorder'
-            required='required'
             onInput={(e) => {setImageSelected(e.target.files[0])}}
             onChange={uploadImage}
             />

@@ -106,10 +106,12 @@ const GetAnimal = () => {
         ))}
       </div>
 
+      <div className={user ? "" : "visibilityHidden"}>
       <OpenModalButton
           buttonText="Review This Pet"
           modalComponent={<CreateReviewModal animalId={id} />}
         />
+      </div>
     </>
   )
 
