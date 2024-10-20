@@ -109,6 +109,10 @@ body {
   margin-top: 5px;
 }
 
+.topMargin {
+  margin-top: 15px;
+}
+
 .bottomMargin {
   margin-bottom: 10px;
 }
@@ -244,6 +248,10 @@ body {
   text-align: center;
 }
 
+.textRight {
+  text-align: right;
+}
+
 .justifyCenter {
   justify-items: center;
 }
@@ -373,6 +381,27 @@ button:hover {
   text-decoration: underline;
   width: 100%;
 }
+
+.iconButton {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: 35px;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  width: auto;
+}
+
+.iconButton:hover{
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: 40px;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  width: auto;
+}
+
 
 .visibilityHidden {
   visibility: hidden;

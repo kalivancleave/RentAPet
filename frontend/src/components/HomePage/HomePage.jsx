@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { fetchAnimals } from "../../store/animals";
 import { NavLink } from "react-router-dom";
 import { IoPawSharp } from "react-icons/io5";
+import { IoAddCircleOutline } from "react-icons/io5";
 
-import OpenModalButton from "../OpenModalButton";
+import IconOpenModalButton from "../OpenModalButton/IconOpenModalButton";
 import CreateAnimalModal from "../Animal/CreateAnimalModal";
 
 function HomePage() {
@@ -18,13 +19,14 @@ function HomePage() {
 
   return(
     <>
-      <h1>Home Page</h1>
-
-      <div className={!sessionUser ? "visibilityHidden" : ""}>
-        <OpenModalButton
-            buttonText="Create Animal"
-            modalComponent={<CreateAnimalModal userId={sessionUser?.id}/>}
-          />
+      <div className="textRight topMargin rightPageBorder leftPageBorder">
+        <div className={!sessionUser ? "visibilityHidden" : ""}>
+          <IconOpenModalButton
+              buttonText={<IoAddCircleOutline />}
+              modalComponent={<CreateAnimalModal userId={sessionUser?.id}/>}
+              />
+        </div>
+        <p className="mediumFont font darkGreenFont noMargin noPadding">Add Animal</p>
       </div>
 
       <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder">
