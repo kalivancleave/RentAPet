@@ -56,7 +56,7 @@ function HomePage() {
                     <p className="font almostBlackFont xx-largeFont leftPadding">{name}</p>
                   </div>
                   <div className="displayFlex alignBottom quarterWidth">
-                    <p className="noMargin header mediumFont almostBlackFont">{averageRating}</p>
+                    <p className="noMargin header mediumFont almostBlackFont">{typeof averageRating === 'number' ? averageRating.toFixed(1) : "New"}</p>
                     <IoPawSharp className="x-largeFont font darkGreenFont littleLeftMargin"/>
                   </div>
                 </div>

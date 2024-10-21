@@ -320,6 +320,12 @@ body {
   border-radius: 100%;
 }
 
+.largeImageShape {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+}
+
 button {
   font-family: "Rancho", cursive;
   font-weight: 400;
@@ -410,10 +416,10 @@ button:hover {
 
 .iconButton:hover{
   font-family: "Rancho", cursive;
-  font-weight: 400;
-  font-size: 40px;
+  font-weight: bold;
+  font-size: 35px;
   font-style: normal;
-  color: #32523A;
+  color: #C1FF72;
   background-color: #FFFDF7;
   width: auto;
 }
@@ -421,4 +427,5 @@ button:hover {
 
 .visibilityHidden {
   visibility: hidden;
+  height: 0;
 }
