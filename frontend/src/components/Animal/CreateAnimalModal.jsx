@@ -5,6 +5,8 @@ import { useModal } from "../../context/Modal";
 import { createAnimal } from "../../store/animals";
 import { fetchAnimals } from "../../store/animals";
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 const CreateAnimalModal = (props) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
@@ -46,77 +48,97 @@ const CreateAnimalModal = (props) => {
   }
 
   return (
-    <>
-      <h1>Create Animal Modal</h1>
-      <form onSubmit={(e) => {e.preventDefault(); animalDetails()}}>
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+      <p className='header xx-largeFont noMargin almostBlackFont'>Create A Pet</p>
 
-        <label>
-          Name
-          <input
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-            placeholder="name"
-            required='required'
-            value={name}
-          />
-        </label>
-        {errors.name && <p>{errors.name}</p>}
+        <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={(e) => {e.preventDefault(); animalDetails()}}>
 
-        <label>
-          Birthday
-          <input
-            onChange={(e) => setBirthday(e.target.value)}
-            type="date"      
-            value={birthday}
-            min='1980-01-01'
-          />
-        </label>.{errors.birthday && <p>{errors.birthday}</p>}
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Name
+            </label>
 
-        <label>
-          Type
-          <select value={type} onChange={handleChange}>
-            <option
-              value="Dog"
-            >Dog</option>
-            <option
-              value="Cat"
-            >Cat</option>
-            <option
-              value="Bird"
-            >Bird</option>
-            <option
-              value="Horse"
-            >Horse</option>
-            <option
-              value="Reptile"
-            >Reptile</option>
-            <option
-              value="Rodent"
-            >Rodent</option>
-            <option
-              value="Exotic"
-            >Exotic</option>
-          </select>
+            <input
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
+              required='required'
+              value={name}
+            />
+            {errors.name && <p>{errors.name}</p>}
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Birthday
+            </label>
+
+            <input
+              onChange={(e) => setBirthday(e.target.value)}
+              type="date"  
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'    
+              value={birthday}
+              min='1980-01-01'
+            />
+            {errors.birthday && <p>{errors.birthday}</p>}
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Type
+            </label>
+
+            <select value={type} onChange={handleChange} className='noBorder dropShadow logInInputSize littleMoreLeftMargin'>
+              <option
+                value="Dog"
+              >Dog</option>
+              <option
+                value="Cat"
+              >Cat</option>
+              <option
+                value="Bird"
+              >Bird</option>
+              <option
+                value="Horse"
+              >Horse</option>
+              <option
+                value="Reptile"
+              >Reptile</option>
+              <option
+                value="Rodent"
+              >Rodent</option>
+              <option
+                value="Exotic"
+              >Exotic</option>
+            </select>
+            {errors.type && <p>{errors.type}</p>}
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Price
+            </label>
+
+            <input
+              onChange={(e) => setPrice(e.target.value)}
+              type="text" 
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'     
+              value={price}
+              required='required'
+              placeholder="Price per night (USD)"
+            />
+
+            {errors.price && <p>{errors.price}</p>}
+          </div>
+
           <p className="visibilityHidden">Selected Type: {type}</p>
-        </label>
-        {errors.type && <p>{errors.type}</p>}
 
-        <label>
-          Price
-          <input
-            onChange={(e) => setPrice(e.target.value)}
-            type="text"      
-            value={price}
-            required='required'
-            placeholder="Price per night (USD)"
-          />
-        </label>
-        {errors.price && <p>{errors.price}</p>}
-
-        <button type="submit">Create Animal</button>
-
-      </form>
-    </>
+          <div className="fullWidth textCenter">
+            <button type="submit">Create Pet</button>
+          </div>
+        </form>
+    </div>
   )
 }
 

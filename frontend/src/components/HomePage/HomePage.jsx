@@ -44,7 +44,7 @@ function HomePage() {
         <p className="mediumFont font darkGreenFont noMargin noPadding">Add Animal</p>
       </div>
 
-      <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder">
+      <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder justifyContentCenter">
         {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
           <div key={id} className="displayFlex flexColumn alignCenter littleMoreMargin dropShadow frontPageCards">
             <NavLink to={`/${id}`} className='noDecoration displayFlex alignCenter fullWidth'>

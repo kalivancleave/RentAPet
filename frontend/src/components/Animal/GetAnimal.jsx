@@ -51,7 +51,7 @@ const GetAnimal = () => {
   }
 
   let props = {
-    userId: user.id,
+    userId: user?.id,
     animalId: "",
     reviewId: "",
     reservationId: ""
