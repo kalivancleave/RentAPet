@@ -21,9 +21,6 @@ const UpdateAnimalModal = (props) => {
   const [errors, setErrors] = useState({})
 
   const [imageSelected, setImageSelected] = useState("");
-  // const [readyToSubmit, setReadyToSubmit] = useState(false);
-  // const [uploadPhoto, setUploadPhoto] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
   const [imageToUpload, setImageToUpload] = useState('');
 
   const { closeModal } = useModal();
@@ -32,7 +29,6 @@ const UpdateAnimalModal = (props) => {
   let imageURL;
   const uploadImage = async (e) => {
     e.preventDefault();
-    // setIsLoading(true);
     const formData = new FormData()
     formData.append('file', imageSelected)
     formData.append("upload_preset", "rentapet")
@@ -48,11 +44,6 @@ const UpdateAnimalModal = (props) => {
     const imageData =  await response.json()
     imageURL = imageData.url.toString() //this gets stored to image database
     setImageToUpload(imageURL)
-    
-
-    // setUploadPhoto(true) //validation
-    // setReadyToSubmit(true)
-    // setIsLoading(false)
   } 
 
   async function wait() {
