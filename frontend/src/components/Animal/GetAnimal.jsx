@@ -15,6 +15,7 @@ import UpdateReviewModal from '../Reviews/UpdateReviewModal';
 import DeleteAnimalModal from './DeleteAnimalModal';
 import UpdateAnimalModal from './UpdateAnimalModal';
 import CreateReservationModal from '../Reservations/CreateReservationModal';
+import Calendar from '../Calendar/Calendar';
 
 
 const GetAnimal = () => {
@@ -178,6 +179,7 @@ const GetAnimal = () => {
 
         <div className='halfWidth'>
           <h2>Reservations</h2>
+          <Calendar />
           {console.log(animalReservations)}
           <div>
             {animalReservations?.map(({id, startDate, endDate}) => (
