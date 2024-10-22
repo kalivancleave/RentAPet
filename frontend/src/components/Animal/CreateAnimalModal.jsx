@@ -128,7 +128,6 @@ const CreateAnimalModal = (props) => {
               required='required'
               placeholder="Price per night (USD)"
             />
-
             {errors.price && <p>{errors.price}</p>}
           </div>
 

@@ -6,6 +6,8 @@ import { updateAnimal } from "../../store/animals";
 import { fetchOneAnimal } from "../../store/animals";
 import { createImage } from "../../store/images";
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 const UpdateAnimalModal = (props) => {
   const animalId = props.animalId
   const dispatch = useDispatch();
@@ -15,6 +17,8 @@ const UpdateAnimalModal = (props) => {
   const [uBirthday, setBirthday] = useState(currentAnimal?.birthday);
   const [uType, setType] = useState(currentAnimal?.type);
   const [uPrice, setPrice] = useState(currentAnimal?.price)
+
+  const [errors, setErrors] = useState({})
 
   const [imageSelected, setImageSelected] = useState("");
   // const [readyToSubmit, setReadyToSubmit] = useState(false);
@@ -58,6 +62,8 @@ const UpdateAnimalModal = (props) => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
+    setErrors({})
+
     const newImage = {
       animalId: animalId,
       url: imageToUpload
@@ -88,88 +94,112 @@ const UpdateAnimalModal = (props) => {
   }
 
   return(
-    <>
-      <h1>Update Animal Modal</h1>
-      {console.log(currentAnimal.price)}
-      {console.log(imageToUpload)}
-      <form onSubmit={handleUpdate}>
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+      <p className='header xx-largeFont noMargin almostBlackFont'>Update Pet</p>
 
-        <img src={currentAnimal?.animalImage} />
-        <label>
-          <input 
-            type='file'
-            accept='.jpeg, .png, .jpg'
-            className='blackBorder'
-            onInput={(e) => {setImageSelected(e.target.files[0])}}
-            onChange={uploadImage}
+        <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={handleUpdate}>
+
+          <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+            <img className="largeImageShape" src={currentAnimal?.animalImage} />
+          </div>
+
+          <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+            <input 
+              type='file'
+              accept='.jpeg, .png, .jpg'
+              className='blackBorder'
+              onInput={(e) => {setImageSelected(e.target.files[0])}}
+              onChange={uploadImage}
+              />
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Name
+            </label>
+
+            <input
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin' 
+              placeholder="name"
+              required='required'
+              value={uName}
             />
-        </label>
+            {errors.name && <p>{errors.name}</p>}
+          </div>
 
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Birthday
+            </label>
 
-      <label>
-          Name
-          <input
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-            placeholder="name"
-            required='required'
-            value={uName}
-          />
-        </label>
+            <input
+              onChange={(e) => setBirthday(e.target.value)}
+              type="date"  
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'     
+              value={uBirthday}
+              min='1980-01-01'
+            />
+            {errors.birthday && <p>{errors.birthday}</p>}
+          </div>
 
-        <label>
-          Birthday
-          <input
-            onChange={(e) => setBirthday(e.target.value)}
-            type="date"      
-            value={uBirthday}
-            min='1980-01-01'
-          />
-        </label>
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Type
+            </label>
 
-        <label>
-          Type
-          <select value={uType} onChange={handleChange}>
-            <option
-              value="Dog"
-            >Dog</option>
-            <option
-              value="Cat"
-            >Cat</option>
-            <option
-              value="Bird"
-            >Bird</option>
-            <option
-              value="Horse"
-            >Horse</option>
-            <option
-              value="Reptile"
-            >Reptile</option>
-            <option
-              value="Rodent"
-            >Rodent</option>
-            <option
-              value="Exotic"
-            >Exotic</option>
-          </select>
+            <select value={uType} onChange={handleChange} className='noBorder dropShadow logInInputSize littleMoreLeftMargin'>
+              <option
+                value="Dog"
+              >Dog</option>
+              <option
+                value="Cat"
+              >Cat</option>
+              <option
+                value="Bird"
+              >Bird</option>
+              <option
+                value="Horse"
+              >Horse</option>
+              <option
+                value="Reptile"
+              >Reptile</option>
+              <option
+                value="Rodent"
+              >Rodent</option>
+              <option
+                value="Exotic"
+              >Exotic</option>
+            </select>
+            {errors.type && <p>{errors.type}</p>}
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Price
+            </label>
+
+            <input
+              onChange={(e) => setPrice(e.target.value)}
+              type="text"      
+              value={uPrice}
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin' 
+              required='required'
+              placeholder="Price per night (USD)"
+            />
+            {errors.price && <p>{errors.price}</p>}
+          </div>
+
           <p className="visibilityHidden">Selected Type: {uType}</p>
-        </label>
 
-        <label>
-          Price
-          <input
-            onChange={(e) => setPrice(e.target.value)}
-            type="text"      
-            value={uPrice}
-            required='required'
-            placeholder="Price per night (USD)"
-          />
-        </label>
+          <div className="fullWidth textCenter">
+            <button type="submit">Update</button>
+          </div>
 
-        <button type="submit">Update</button>
-
-      </form>
-    </>
+        </form>
+    </div>
   )
 }
 
