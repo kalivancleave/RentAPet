@@ -1,10 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchReservations } from "../../store/reservations";
 import { deleteReservation } from "../../store/reservations";
 import { useModal } from "../../context/Modal";
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 function DeleteReservationModal(props) {
   const dispatch = useDispatch();
+  const currentAnimal = useSelector(state => state.animals.animalDetails);
   const { closeModal } = useModal();
 
   async function wait() {
@@ -23,13 +26,22 @@ function DeleteReservationModal(props) {
   const doNotDelete = () => {closeModal()}
 
   return (
-    <>
-      <h1>Delete Reservation</h1>
-      <p>Are you sure you want to delete this reservation?</p>
-      {console.log(props.reservationId)}
-      <button onClick={() => deleteReservationFunction()}>Yes</button>
-      <button onClick={doNotDelete}>No</button>
-    </>
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+
+        <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+          <p className='header xx-largeFont noMargin almostBlackFont'>Are you sure you want to delete your reservation?</p>
+        </div>
+
+        <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+          <img className="largeImageShape" src={currentAnimal?.animalImage} />
+        </div>
+
+        <div className="displayFlex flexColumn fullWidth alignCenter topMargin textCenter">
+          <button onClick={() => deleteReservationFunction()}>Yes</button>
+          <button className="subtleButton" onClick={doNotDelete}>No, keep my reservation with {currentAnimal.name}</button>
+        </div>
+    </div>
   )
 }
 

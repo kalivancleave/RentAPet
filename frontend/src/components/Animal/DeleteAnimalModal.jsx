@@ -37,8 +37,6 @@ function DeleteAnimalModal(props) {
         <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
           <img className="largeImageShape" src={currentAnimal?.animalImage} />
         </div>
-
-        
         
         <div className="displayFlex flexColumn fullWidth alignCenter topMargin textCenter">
           <button onClick={() => deleteAnimalFunction()}>Yes</button>
