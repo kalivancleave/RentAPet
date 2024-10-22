@@ -116,6 +116,9 @@ body {
 .bottomMargin {
   margin-bottom: 10px;
 }
+.moreBottomMargin {
+  margin-bottom: 15px;
+}
 
 .leftPageBorder {
   margin-left: 50px;
@@ -272,6 +275,14 @@ body {
   justify-items: center;
 }
 
+.justifyContentCenter {
+  justify-content: center;
+}
+
+.justifyContentRight {
+  justify-content: right;
+}
+
 .justifyRight {
   justify-items: right;
 }
@@ -310,6 +321,12 @@ body {
   transition: top ease 300ms;
 }
 
+.reviewCards {
+  width: 300px;
+  height: 150px;
+  padding: 10px;
+}
+
 .frontPageCards:hover {
   transform: translate(0, -10px);
 }
@@ -336,7 +353,7 @@ button {
   padding: 10px 15px;
   margin: 2px 0px;
   border: none;
-  width: 100px;
+  width: 125px;
   border-radius: 5px;
 }
 
@@ -350,7 +367,7 @@ button:hover {
   padding: 10px 15px;
   margin: 2px 0px;
   border: none;
-  width: 100px;
+  width: 125px;
   border-radius: 5px;
 }
 

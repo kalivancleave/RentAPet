@@ -5,8 +5,10 @@ import { IoPawSharp } from "react-icons/io5";
 
 import { fetchOneAnimal } from '../../store/animals';
 import { fetchAnimalReviews } from '../../store/reviews';
+import { fetchAnimalReservations } from '../../store/reservations';
 
 import OpenModalButton from '../OpenModalButton';
+import SubtleOpenModalButton from '../OpenModalButton/SubtleOpenModalButton';
 import DeleteReviewModal from '../Reviews/DeleteReviewModal';
 import CreateReviewModal from '../Reviews/CreateReviewModal';
 import UpdateReviewModal from '../Reviews/UpdateReviewModal';
@@ -20,12 +22,14 @@ const GetAnimal = () => {
   const dispatch = useDispatch();
   const animalInfo = useSelector(state => state.animals.animalDetails)
   const animalReviews = useSelector(state => state.reviews.reviews)
+  const animalReservations = useSelector(state => state.reservations.reservations)
 
   const user = useSelector(state => state.session.user)
 
   useEffect(() => {
     dispatch(fetchOneAnimal(id))
     dispatch(fetchAnimalReviews(id))
+    dispatch(fetchAnimalReservations(id))
   }, [dispatch, id])
 
   function displayMonth(number) {
@@ -77,7 +81,7 @@ const GetAnimal = () => {
         </div>
       </div>
 
-      <div className='displayFlex spaceEvenly topMargin'>
+      <div className='displayFlex spaceEvenly topMargin testBorder alignCenter'>
         <div>
           <div className='textCenter'>
             <img className="largeImageShape" src={animalInfo?.animalImage} />
@@ -110,41 +114,83 @@ const GetAnimal = () => {
         </div>
       </div>
 
-      <h2>Reviews</h2>
-      {/* import reviews display */}
-      {console.log(animalReviews)}
-      <div className='noDecoration'>
-        {animalReviews?.map(({id, review, User, stars, createdAt}) => (
-          <div key={id}>
-              <div className='visibilityHidden'>
-                {props.reviewId = id}
-              </div>
-              <p>{`${User.firstName} ${User.lastName}`}</p>
-              <p>{displayMonth(createdAt.slice(5,7))} {createdAt.slice(0,4)}</p>
-              <p>{review}</p>
-              <p>{stars}</p>
-            <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+      <div className='displayFlex topMargin'>
+        <div className='halfWidth padding'>
+          <div className='displayFlex alignCenter bottomMargin justifyContentCenter'>
+            <p className='xx-largeFont header almostBlackFont noMargin'>Reviews</p>
+            <div className={user ? "leftPageBorder" : "visibilityHidden"}>
               <OpenModalButton
-                  buttonText="Delete"
-                  modalComponent={<DeleteReviewModal {...props}/>}
-                />
-            </div>
-            <div className={User.id === user?.id ? "" : "visibilityHidden"}>
-              <OpenModalButton
-                  buttonText="Update"
-                  modalComponent={<UpdateReviewModal {...props}/>}
+                  buttonText={`Review ${animalInfo?.name}`}
+                  modalComponent={<CreateReviewModal animalId={id} />}
                 />
             </div>
           </div>
-        ))}
+
+          {console.log(animalReviews)}
+          <div className='displayFlex spaceEvenly'>
+            <div className='noDecoration'>
+              {animalReviews?.map(({id, review, User, stars, createdAt}) => (
+                <div key={id} className='reviewCards dropShadow moreBottomMargin'>
+                  <div className='visibilityHidden'>
+                    {props.reviewId = id}
+                  </div>
+
+                  <div className='displayFlex spaceBetween'>
+                    <div className="displayFlex alignBottom spaceBetween littleTopPadding">
+                      <p className="noMargin header mediumFont almostBlackFont">{displayMonth(createdAt.slice(5,7))} {createdAt.slice(8,10)} {createdAt.slice(0,4)}</p>
+                    </div>
+
+                    <div className='displayFlex alignBottom'>
+                      <p className="noMargin header mediumFont almostBlackFont">{stars}</p>
+                      <IoPawSharp className="x-largeFont font darkGreenFont littleLeftMargin"/>
+                    </div>
+                  </div>  
+
+                  <div className="displayFlex alignBottom spaceBetween littleTopPadding">
+                    <p className="noMargin font xx-largeFont almostBlackFont">&quot;</p>
+                    <p className="noMargin header mediumFont almostBlackFont">{review}</p>
+                    <p className="noMargin font xx-largeFont almostBlackFont">&quot;</p>
+                  </div>
+
+                  <div className="displayFlex alignBottom spaceBetween littleTopPadding justifyContentRight">
+                    <p className="noMargin font mediumFont almostBlackFont">~{`${User.firstName} ${User.lastName}`}</p>
+                  </div>
+
+                  <div className='displayFlex'>
+                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Delete"
+                          modalComponent={<DeleteReviewModal {...props}/>}
+                          />
+                    </div>
+                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Update"
+                          modalComponent={<UpdateReviewModal {...props}/>}
+                          />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className='halfWidth'>
+          <h2>Reservations</h2>
+          {console.log(animalReservations)}
+          <div>
+            {animalReservations?.map(({id, startDate, endDate}) => (
+              <div key={id}>
+                <p>{startDate}</p>
+                <p>{endDate}</p>
+              </div> 
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className={user ? "" : "visibilityHidden"}>
-      <OpenModalButton
-          buttonText="Review This Pet"
-          modalComponent={<CreateReviewModal animalId={id} />}
-        />
-      </div>
+      
     </div>
   )
 
