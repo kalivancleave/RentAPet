@@ -3,6 +3,10 @@ body {
   padding: 0px;
   background-color: #FFFDF7;
 }
+
+textarea {
+  resize: none;
+}
 /* colors */
 
 .darkGreen {
@@ -212,6 +216,11 @@ body {
 .logInInputSize {
   width: 300px;
   height: 25px;
+}
+
+.textAreaSize {
+  width: 300px;
+  height: 150px;
 }
 
 /* misc items */
