@@ -15,6 +15,8 @@ import UpdateReviewModal from '../Reviews/UpdateReviewModal';
 import DeleteAnimalModal from './DeleteAnimalModal';
 import UpdateAnimalModal from './UpdateAnimalModal';
 import CreateReservationModal from '../Reservations/CreateReservationModal';
+import UpdateReservationModal from '../Reservations/UpdateReservationModal';
+import DeleteReservationModal from '../Reservations/DeleteReservationModal';
 import Calendar from '../Calendar/Calendar';
 
 
@@ -49,8 +51,10 @@ const GetAnimal = () => {
   }
 
   let props = {
+    userId: user.id,
     animalId: "",
     reviewId: "",
+    reservationId: ""
   }
 
   return (
@@ -82,18 +86,18 @@ const GetAnimal = () => {
         </div>
       </div>
 
-      <div className='displayFlex spaceEvenly topMargin testBorder alignCenter'>
-        <div>
-          <div className='textCenter'>
-            <img className="largeImageShape" src={animalInfo?.animalImage} />
-          </div>
+      <div className='displayFlex justifyContentCenter topMargin alignCenter'>
+        <div className='quarterWidth moreBottomPadding'>
           <div className='textCenter'>
             <p className='xx-largeFont header almostBlackFont noMargin padding'>{animalInfo?.name}</p>
           </div>
+          <div className='textCenter'>
+            <img className="largeImageShape" src={animalInfo?.animalImage} />
+          </div>
         </div>
 
-        <div>
-          <div className='displayFlex alignBottom'>
+        <div className='quarterWidth'>
+          <div className='displayFlex alignBottom justifyContentRight littleMoreBottomPadding'>
             <p className="noMargin header mediumFont almostBlackFont">{typeof animalInfo?.averageStars === 'number' ? animalInfo?.averageStars.toFixed(1) : "New"}</p>
             <IoPawSharp className="x-largeFont font darkGreenFont littleLeftMargin"/>
           </div>
@@ -177,19 +181,42 @@ const GetAnimal = () => {
           </div>
         </div>
 
-        <div className='halfWidth'>
-          <h2>Reservations</h2>
-          <Calendar />
-          {console.log(animalReservations)}
-          <div>
-            {animalReservations?.map(({id, startDate, endDate}) => (
-              <div key={id}>
-                <p>{startDate}</p>
-                <p>{endDate}</p>
-              </div> 
-            ))}
+        <div className='halfWidth padding'>
+          <div className='displayFlex alignCenter bottomMargin justifyContentCenter'>
+            <p className='xx-largeFont header almostBlackFont noMargin'>Reservations</p>
           </div>
+          <Calendar />
+
+          {console.log(animalReservations)}
+          <div className='displayFlex flexColumn alignCenter topPadding'>
+            <p className='mediumFont header almostBlackFont noMargin littleBottomPadding'>Currently Booked Dates:</p>
+              {animalReservations?.map(({id, startDate, endDate, User}) => (
+                <div key={id} className='displayFlex flexColumn dropShadow reservationCards moreBottomMargin'>
+                  <div className='visibilityHidden'>
+                    {props.reservationId = id}
+                  </div>
+                  <p className="noMargin font mediumFont almostBlackFont">{User?.firstName}</p>
+                  <p className="noMargin header mediumFont almostBlackFont littleMoreTopPadding textCenter">{displayMonth(startDate.slice(5,7))} {startDate.slice(8,10)}, {startDate.slice(0,4)} - {displayMonth(endDate.slice(5,7))} {endDate.slice(8,10)}, {endDate.slice(0,4)}</p>
+                  
+                  <div className='displayFlex'>
+                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Delete"
+                          modalComponent={<DeleteReservationModal {...props}/>}
+                          />
+                    </div>
+                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Update"
+                          modalComponent={<UpdateReservationModal {...props}/>}
+                          />
+                    </div>
+                  </div>
+                </div> 
+              ))}
+          </div> 
         </div>
+
       </div>
 
       
