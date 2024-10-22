@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 
 import { createReservation } from "../../store/reservations";
 import { fetchAnimalReservations } from "../../store/reservations";
 import { fetchOneAnimal } from "../../store/animals";
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 function CreateReservationModal(props) {
   const dispatch = useDispatch();
+  const currentAnimal = useSelector(state => state.animals.animalDetails)
+
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [errors, setErrors] = useState({})
@@ -42,35 +46,53 @@ function CreateReservationModal(props) {
   let formattedDate = today.toISOString().split('T')[0];
 
   return (
-    <>
-      <h1>Create Reservation Modal</h1>
-      <p>Reserve This Pet</p>
-      {console.log(startDate)}
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label>
-          Start Date
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+
+      <div className="displayFlex flexColumn alignCenter bottomPadding topPadding">
+        <img className="imageShape" src={currentAnimal?.animalImage} />
+        <p className='header xx-largeFont noMargin almostBlackFont'>Reserve {currentAnimal.name}</p>
+      </div>
+
+        <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={(e) => e.preventDefault()}>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Start Date
+            </label>
+
             <input
               onChange={(e) => setStartDate(e.target.value)}
               type="date"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
               value={startDate}
               min={formattedDate}
             />
-        </label>
-        {errors.startDate && <p>{errors.startDate}</p>}
+          
+            {errors.startDate && <p>{errors.startDate}</p>}
+          </div>
 
-        <label>
-          End Date
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              End Date
+            </label>
+
             <input
               onChange={(e) => setEndDate(e.target.value)}
               type="date"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
               value={endDate}
             />
-        </label>
-        {errors.endDate && <p>{errors.endDate}</p>}
 
-        <button onClick={handleSubmit}>Reserve Now!</button>
-      </form>
-    </>
+            {errors.endDate && <p>{errors.endDate}</p>}
+          </div>
+
+          <div className="fullWidth textCenter topMargin">
+            <button onClick={handleSubmit}>Reserve Now!</button>
+          </div>
+
+        </form>
+    </div>
   )
 }
 
