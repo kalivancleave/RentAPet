@@ -49,6 +49,7 @@ function CreateReservationModal(props) {
     <div className='displayFlex flexColumn alignCenter'>
       <img className='smallLogo' src={Logo} />
 
+      {console.log(props)}
       <div className="displayFlex flexColumn alignCenter bottomPadding topPadding">
         <img className="imageShape" src={currentAnimal?.animalImage} />
         <p className='header xx-largeFont noMargin almostBlackFont'>Reserve {currentAnimal.name}</p>

@@ -4,6 +4,7 @@ import { deleteReservation } from "../../store/reservations";
 import { useModal } from "../../context/Modal";
 
 import Logo from '../../../../static/rentAPetLogoDark.png';
+import { fetchOneAnimal } from "../../store/animals";
 
 function DeleteReservationModal(props) {
   const dispatch = useDispatch();
@@ -17,7 +18,11 @@ function DeleteReservationModal(props) {
   const deleteReservationFunction = async () => {
     await dispatch(deleteReservation(props.reservationId))
     .then(async function refreshReservationsPage() {
-      dispatch(fetchReservations())
+      dispatch(fetchReservations(props.animalId))
+      await wait();
+    })
+    .then(async function refreshAnimalDetails() {
+      dispatch(fetchOneAnimal(props.animalId))
       await wait();
     })
     .then(closeModal)

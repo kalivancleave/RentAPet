@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 
 import { updateReservation } from "../../store/reservations";
 import { fetchReservations } from "../../store/reservations";
+// import { fetchOneAnimal } from "../../store/animals";
 
 import Logo from '../../../../static/rentAPetLogoDark.png';
 
@@ -11,11 +12,11 @@ const UpdateReservationModal = (props) => {
   const reservationId = props.reservationId;
   const dispatch = useDispatch();
   const allReservations = useSelector(state => state?.reservations.reservations);
-  const currentReservation = allReservations?.filter(reservation => reservation.id === reservationId);
+  let currentReservation = allReservations?.filter(reservation => reservation.id === reservationId);
   const currentAnimal = useSelector(state => state.animals.animalDetails)
 
-  const [uStartDate, setStartDate] = useState(currentReservation[0].startDate);
-  const [uEndDate, setEndDate] = useState(currentReservation[0].endDate);
+  const [uStartDate, setStartDate] = useState(currentReservation[0]?.startDate);
+  const [uEndDate, setEndDate] = useState(currentReservation[0]?.endDate);
   const [errors, setErrors] = useState({})
 
   const { closeModal } = useModal();
@@ -31,11 +32,15 @@ const UpdateReservationModal = (props) => {
   }
 
   const handleUpdate = (e) => {
-    setErrors({})
     e.preventDefault();
+    setErrors({})
     return dispatch(updateReservation(updatedReservation))
     .then(async function refreshReservationDetails() {
-      dispatch(fetchReservations())
+      dispatch(fetchReservations(props.animalId))
+      await wait();
+    })
+    .then(async function refreshAnimalDetails() {
+      dispatch(fetchOneAnimal(props.animalId))
       await wait();
     })
     .then(closeModal)

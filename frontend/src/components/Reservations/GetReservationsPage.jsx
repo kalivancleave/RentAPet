@@ -3,13 +3,10 @@ import { useEffect } from "react";
 
 import { fetchReservations } from "../../store/reservations";
 
-import SubtleOpenModalButton from "../OpenModalButton/SubtleOpenModalButton";
-import DeleteReservationModal from "./DeleteReservationModal";
-import UpdateReservationModal from "./UpdateReservationModal";
 
 function GetReservationsPage() {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.session.user)
+  // const user = useSelector(state => state.session.user)
   const currentReservations = useSelector(state => state.reservations.reservations)
 
   useEffect(() => {
@@ -31,25 +28,31 @@ function GetReservationsPage() {
     if(number === "12") return "December"
   }
 
-  let props = {
-    userId: user?.id,
-    animalId: "",
-    reservationId: ""
+  // let props = {
+  //   userId: user?.id,
+  //   animalId: "",
+  //   reservationId: ""
+  // }
+
+  function sendAlert() {
+    alert("Feature coming soon!")
   }
 
   return (
     <>
-      <div className="visibilityHidden">
+      {/* <div className="visibilityHidden">
         {props.userId = user.id}
-      </div>
+      </div> */}
+
+      {console.log(currentReservations)}
 
       <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder justifyContentCenter topMargin">
-        {currentReservations.map(({id, Animal, animalId, startDate, endDate, userId}) => (
+        {currentReservations.map(({id, Animal, startDate, endDate}) => (
           <div key={id} className="displayFlex flexColumn alignCenter littleMoreMargin dropShadow frontPageCards">
-            <div className="visibilityHidden">
+            {/* <div className="visibilityHidden">
               {props.reservationId = id}
               {props.animalId = animalId}
-            </div>
+            </div> */}
 
             <div className="displayFlex flexColumn fullWidth alignCenter">
               <div className="displayFlex">
@@ -62,18 +65,21 @@ function GetReservationsPage() {
             </div>
 
             <div className='displayFlex'>
-             <div className={userId === user?.id ? "" : "visibilityHidden"}>
+              <button className="subtleButton" onClick={sendAlert}>Update</button>
+              <button className="subtleButton" onClick={sendAlert}>Delete</button>
+
+             {/* <div className={userId === user?.id ? "" : "visibilityHidden"}>
                 <SubtleOpenModalButton
                     buttonText="Delete"
-                    modalComponent={<DeleteReservationModal {...props}/>}
+                    modalComponent={<AltDeleteReservationModal {...props}/>}
                     />
               </div>
               <div className={userId === user?.id ? "" : "visibilityHidden"}>
                 <SubtleOpenModalButton
                     buttonText="Update"
-                    modalComponent={<UpdateReservationModal reservationId={id} animalId={animalId} userId={userId}/>}
+                    modalComponent={<AltUpdateReservationModal {...props}/>}
                     />
-              </div>
+              </div> */}
             </div>
           </div>
         ))}

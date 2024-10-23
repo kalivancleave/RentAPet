@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 
 import { updateReview } from "../../store/reviews";
 import { fetchAnimalReviews } from "../../store/reviews";
+import { fetchOneAnimal } from "../../store/animals";
 
 import { IoPawSharp } from "react-icons/io5";
 
@@ -39,6 +40,10 @@ const UpdateReviewModal = (props) => {
     return dispatch(updateReview(updatedReview))
     .then(async function refreshReviewDetails() {
       dispatch(fetchAnimalReviews(props.animalId))
+      await wait();
+    })
+    .then(async function refreshAnimalDetails() {
+      dispatch(fetchOneAnimal(props.animalId))
       await wait();
     })
     .then(closeModal)
