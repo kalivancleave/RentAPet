@@ -24,6 +24,7 @@ function DeleteReservationModal(props) {
     .then(async function refreshAnimalDetails() {
       dispatch(fetchOneAnimal(props.animalId))
       await wait();
+      window.location.reload();
     })
     .then(closeModal)
   }

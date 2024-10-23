@@ -12,8 +12,8 @@ function CreateReservationModal(props) {
   const dispatch = useDispatch();
   const currentAnimal = useSelector(state => state.animals.animalDetails)
 
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [errors, setErrors] = useState({})
 
   const { closeModal } = useModal();

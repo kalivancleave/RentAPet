@@ -4,12 +4,13 @@ import { useModal } from "../../context/Modal";
 
 import { updateReservation } from "../../store/reservations";
 import { fetchReservations } from "../../store/reservations";
-// import { fetchOneAnimal } from "../../store/animals";
+import { fetchOneAnimal } from "../../store/animals";
 
 import Logo from '../../../../static/rentAPetLogoDark.png';
 
 const UpdateReservationModal = (props) => {
   const reservationId = props.reservationId;
+  const animalId = props.animalId;
   const dispatch = useDispatch();
   const allReservations = useSelector(state => state?.reservations.reservations);
   let currentReservation = allReservations?.filter(reservation => reservation.id === reservationId);
@@ -36,12 +37,13 @@ const UpdateReservationModal = (props) => {
     setErrors({})
     return dispatch(updateReservation(updatedReservation))
     .then(async function refreshReservationDetails() {
-      dispatch(fetchReservations(props.animalId))
+      dispatch(fetchReservations(animalId))
       await wait();
     })
     .then(async function refreshAnimalDetails() {
-      dispatch(fetchOneAnimal(props.animalId))
+      dispatch(fetchOneAnimal(animalId))
       await wait();
+      window.location.reload();
     })
     .then(closeModal)
   }
