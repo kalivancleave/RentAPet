@@ -354,7 +354,16 @@ router.get('/:animalId/reservations', requireAuth, async(req, res, next) => {
       for (let i = 0; i < reservations.length; i++) {
         let reservation = reservations[i];
 
+        const user = await User.findOne({
+          where: {
+            id: reservation.userId
+          },
+          attributes: ['id', 'firstName', 'lastName']
+        });
+
         const nonOwnerReservationInfo = {
+          User: user,
+          id: reservation.id,
           animalId: reservation.animalId,
           startDate: reservation.startDate.toISOString().split('T')[0],
           endDate: reservation.endDate.toISOString().split('T')[0]
