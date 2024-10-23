@@ -40,8 +40,8 @@ function HomePage() {
               buttonText={<IoAddCircleOutline />}
               modalComponent={<CreateAnimalModal userId={sessionUser?.id}/>}
               />
+          <p className="mediumFont font darkGreenFont noMargin noPadding">Add Animal</p>
         </div>
-        <p className="mediumFont font darkGreenFont noMargin noPadding">Add Animal</p>
       </div>
 
       <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder justifyContentCenter">

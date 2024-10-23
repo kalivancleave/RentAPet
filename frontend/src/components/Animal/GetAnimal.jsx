@@ -78,7 +78,7 @@ const GetAnimal = () => {
           </div>
         </div>
         {console.log(animalInfo)}
-        <div className={user && user.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
+        <div className={user && user?.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
           <OpenModalButton
               buttonText="Reserve"
               modalComponent={<CreateReservationModal {...props}/>}
@@ -142,7 +142,7 @@ const GetAnimal = () => {
 
                   <div className='displayFlex spaceBetween'>
                     <div className="displayFlex alignBottom spaceBetween littleTopPadding">
-                      <p className="noMargin header mediumFont almostBlackFont">{displayMonth(createdAt.slice(5,7))} {createdAt.slice(8,10)} {createdAt.slice(0,4)}</p>
+                      <p className="noMargin header mediumFont almostBlackFont">{displayMonth(createdAt?.slice(5,7))} {createdAt?.slice(8,10)} {createdAt?.slice(0,4)}</p>
                     </div>
 
                     <div className='displayFlex alignBottom'>
