@@ -53,6 +53,17 @@ const GetAnimal = () => {
     if(number === "12") return "December"
   }
 
+  function sortedReviews(a, b) {
+    return new Date(b?.createdAt) - new Date(a?.createdAt)
+  }
+  let sortedReviewsBig2Small = animalReviews.sort(sortedReviews)
+
+  function sortedDates(a, b) {
+    return new Date(a?.startDate) - new Date(b?.startDate)
+  }
+  let sortedReservations = animalReservations.sort(sortedDates)
+  
+
   let props = {
     userId: user?.id,
     animalId: "",
@@ -136,7 +147,7 @@ const GetAnimal = () => {
 
           <div className='displayFlex spaceEvenly'>
             <div className='noDecoration'>
-              {animalReviews?.map(({id, review, User, stars, createdAt}) => (
+              {sortedReviewsBig2Small?.map(({id, review, User, stars, createdAt}) => (
                 <div key={id} className='reviewCards dropShadow moreBottomMargin'>
                   <div className='visibilityHidden'>
                     {props.reviewId = id}
@@ -191,7 +202,7 @@ const GetAnimal = () => {
 
           <div className='displayFlex flexColumn alignCenter topPadding'>
             <p className='mediumFont header almostBlackFont noMargin littleBottomPadding'>Currently Booked Dates:</p>
-              {animalReservations?.map(({id, startDate, endDate, User}) => (
+              {sortedReservations?.map(({id, startDate, endDate, User}) => (
                 <div key={id} className='displayFlex flexColumn dropShadow reservationCards moreBottomMargin'>
                   <div className='visibilityHidden'>
                     {newReservationStartDate = new Date(startDate).getTime()}

@@ -16,8 +16,8 @@ const validateAnimal = [
     .exists({checkFalsy: true})
     .isString()
     .isLength({
-      min: 1,
-      max: 49
+      min: 2,
+      max: 30
     })
     .withMessage('Name is required'),
   check('birthday')
@@ -179,11 +179,11 @@ router.get('/:animalId', async(req, res, next) => {
     }
 
     //find animal image with that id
-    const animalImage = await Image.findOne({
-      attributes: ['url'],
+    const animalImages = await Image.findAll({
       where: {
         animalId: animal.id
-      }
+      },
+      attributes: ['url']
     });
 
     //find reviews with that id
@@ -224,10 +224,10 @@ router.get('/:animalId', async(req, res, next) => {
       Owner: owner
     }
 
-    if(!animalImage){
-      updatedAnimal.animalImage = "https://res.cloudinary.com/djnfjzocb/image/upload/v1721880630/image-placeholder_xsvyni.png"
+    if(!animalImages){
+      updatedAnimal.animalImages = "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"
     } else {
-      updatedAnimal.animalImage = animalImage.url
+      updatedAnimal.animalImages = [...animalImages]
     }
 
     res.json(updatedAnimal)
