@@ -37,6 +37,18 @@ const UpdateReviewModal = (props) => {
   const handleUpdate = (e) => {
     e.preventDefault();
     setErrors({})
+
+    if(uReview.length < 10) {
+      setErrors({
+        review: "Review length must be longer than 10 characters."
+      })
+    } else if (uReview.length > 256) {
+      setErrors({
+        review: "Review lenght must be less than 256 characters."
+      })
+      return errors
+    }
+
     return dispatch(updateReview(updatedReview))
     .then(async function refreshReviewDetails() {
       dispatch(fetchAnimalReviews(props.animalId))
@@ -90,9 +102,10 @@ const UpdateReviewModal = (props) => {
             className='noBorder dropShadow textAreaSize littleMoreLeftMargin'
             value={uReview}
           />
+        </div>
+        <div>
           {errors.review && <p>{errors.review}</p>}
         </div>
-
 
         <div className='displayFlex alignCenter topPadding fullWidth spaceEvenly'>
           <label className='largeFont displayFlex font almostBlackFont'>

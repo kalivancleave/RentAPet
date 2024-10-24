@@ -12,7 +12,7 @@ const UpdateReservationModal = (props) => {
   const reservationId = props.reservationId;
   const animalId = props.animalId;
   const dispatch = useDispatch();
-  const allReservations = useSelector(state => state?.reservations.reservations);
+  const allReservations = useSelector(state => state.reservations.reservations);
   let currentReservation = allReservations?.filter(reservation => reservation.id === reservationId);
   const currentAnimal = useSelector(state => state.animals.animalDetails)
 
@@ -28,6 +28,10 @@ const UpdateReservationModal = (props) => {
     endDate: uEndDate
   }
 
+  let minAllowedDate = new Date()
+  let newReservationStartDate = new Date(uStartDate).getTime();
+  let newReservationEndDate = new Date(uEndDate).getTime();
+
   async function wait() {
     await new Promise((resolve) => setTimeout(resolve))
   }
@@ -35,6 +39,45 @@ const UpdateReservationModal = (props) => {
   const handleUpdate = (e) => {
     e.preventDefault();
     setErrors({})
+
+    //bad requests
+    if(newReservationEndDate <= newReservationStartDate){
+      setErrors({
+        endDate: "End date cannot be on or before start date."
+      })
+    } else if (newReservationStartDate < minAllowedDate){
+      setErrors({
+        startDate: "Cannot update a reservation that already started."
+      })
+      return errors
+    }
+
+    //reservation conflicts
+    for(let i = 0; i < allReservations.length; i++){
+      let reservation = allReservations[i];
+
+      let date1 = new Date(reservation.startDate).getTime();
+      let date2 = new Date(reservation.endDate).getTime();
+
+      if(newReservationEndDate >= date1 && newReservationEndDate <= date2){
+        setErrors({
+          startDate: "Dates conflict with an existing reservation.",
+          endDate: "Dates conflict with an existing reservation."
+        })
+      } else if (newReservationStartDate >= date1 && newReservationStartDate <= date2){
+        setErrors({
+          startDate: "Dates conflict with an existing reservation.",
+          endDate: "Dates conflict with an existing reservation."
+        })
+      } else if (newReservationStartDate <= date1 && newReservationEndDate >= date2){
+        setErrors({
+          startDate: "Dates conflict with an existing reservation.",
+          endDate: "Dates conflict with an existing reservation."
+        })
+        return errors
+      }
+    }
+
     return dispatch(updateReservation(updatedReservation))
     .then(async function refreshReservationDetails() {
       dispatch(fetchReservations(animalId))
@@ -54,7 +97,7 @@ const UpdateReservationModal = (props) => {
   return (
     <div className='displayFlex flexColumn alignCenter'>
       <img className='smallLogo' src={Logo} />
-      {console.log(props)}
+      {console.log(allReservations)}
         
       <div className="displayFlex flexColumn alignCenter bottomPadding topPadding">
         <img className="imageShape" src={currentAnimal?.animalImage} />
@@ -76,7 +119,9 @@ const UpdateReservationModal = (props) => {
               min={formattedDate}
             />
 
-            {errors.uStartDate && <p>{errors.uStartDate}</p>}
+          </div>
+          <div>
+            {errors.startDate && <p>{errors.startDate}</p>}
           </div>
 
           <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
@@ -91,7 +136,9 @@ const UpdateReservationModal = (props) => {
               value={uEndDate}
             />
 
-            {errors.uEndDate && <p>{errors.uEndDate}</p>}
+          </div>
+          <div>
+            {errors.endDate && <p>{errors.endDate}</p>}
           </div>
 
           <div className="fullWidth textCenter topMargin">
