@@ -20,7 +20,7 @@ const UpdateAnimalModal = (props) => {
 
   const [errors, setErrors] = useState({})
 
-  const [imageSelected, setImageSelected] = useState("");
+  const [imageSelected, setImageSelected] = useState(currentAnimal?.animalImage);
   const [imageToUpload, setImageToUpload] = useState('');
 
   const { closeModal } = useModal();
@@ -81,7 +81,8 @@ const UpdateAnimalModal = (props) => {
       return errors
     }
 
-    await dispatch(updateAnimal(updatedAnimal))
+    dispatch(updateAnimal(updatedAnimal))
+    await wait()
     .then(async function updatePetImage() {
       dispatch(createImage(newImage))
       await wait();
@@ -101,11 +102,12 @@ const UpdateAnimalModal = (props) => {
     <div className='displayFlex flexColumn alignCenter'>
       <img className='smallLogo' src={Logo} />
       <p className='header xx-largeFont noMargin almostBlackFont'>Update Pet</p>
+      {console.log(currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)].url)}
 
         <form onSubmit={(e) => e.preventDefault()} className='displayFlex flexColumn littleMoreTopPadding'>
 
           <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
-            <img className="largeImageShape" src={currentAnimal?.animalImage} />
+            <img className="largeImageShape" src={currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)].url} />
           </div>
 
           <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
@@ -201,7 +203,7 @@ const UpdateAnimalModal = (props) => {
           <div>
             {errors.price && <p>{errors.price}</p>}
           </div>
-          
+
           <p className="visibilityHidden">Selected Type: {uType}</p>
 
           <div className="fullWidth textCenter">

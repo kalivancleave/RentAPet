@@ -26,6 +26,7 @@ const GetAnimal = () => {
   const animalInfo = useSelector(state => state.animals.animalDetails)
   const animalReviews = useSelector(state => state.reviews.reviews)
   const animalReservations = useSelector(state => state.reservations.reservations)
+  const animalImages = useSelector(state => state.images.animalImages)
 
   const user = useSelector(state => state.session.user)
 
@@ -80,7 +81,7 @@ const GetAnimal = () => {
               />
           </div>
         </div>
-        {console.log(animalInfo)}
+        {console.log(animalInfo?.animalImages[(animalInfo?.animalImages.length -1)].url)}
         <div className={user && user?.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
           <OpenModalButton
               buttonText="Reserve"
@@ -95,7 +96,7 @@ const GetAnimal = () => {
             <p className='xx-largeFont header almostBlackFont noMargin padding'>{animalInfo?.name}</p>
           </div>
           <div className='textCenter'>
-            <img className="largeImageShape" src={animalInfo?.animalImage} />
+            <img className="largeImageShape" src={animalInfo?.animalImages[(animalInfo?.animalImages.length -1)].url} />
           </div>
         </div>
 
@@ -134,7 +135,6 @@ const GetAnimal = () => {
             </div>
           </div>
 
-          {console.log(animalReviews)}
           <div className='displayFlex spaceEvenly'>
             <div className='noDecoration'>
               {animalReviews?.map(({id, review, User, stars, createdAt}) => (
@@ -190,7 +190,6 @@ const GetAnimal = () => {
           </div>
           <Calendar />
 
-          {console.log(animalReservations)}
           <div className='displayFlex flexColumn alignCenter topPadding'>
             <p className='mediumFont header almostBlackFont noMargin littleBottomPadding'>Currently Booked Dates:</p>
               {animalReservations?.map(({id, startDate, endDate, User}) => (
