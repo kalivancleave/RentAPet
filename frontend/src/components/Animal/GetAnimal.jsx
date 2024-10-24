@@ -29,6 +29,9 @@ const GetAnimal = () => {
 
   const user = useSelector(state => state.session.user)
 
+  let minAllowedDate = new Date()
+  let newReservationStartDate
+
   useEffect(() => {
     dispatch(fetchOneAnimal(id))
     dispatch(fetchAnimalReviews(id))
@@ -193,13 +196,14 @@ const GetAnimal = () => {
               {animalReservations?.map(({id, startDate, endDate, User}) => (
                 <div key={id} className='displayFlex flexColumn dropShadow reservationCards moreBottomMargin'>
                   <div className='visibilityHidden'>
+                    {newReservationStartDate = new Date(startDate).getTime()}
                     {props.reservationId = id}
                   </div>
                   <p className="noMargin font mediumFont almostBlackFont">{User?.firstName}</p>
                   <p className="noMargin header mediumFont almostBlackFont littleMoreTopPadding textCenter">{displayMonth(startDate.slice(5,7))} {startDate.slice(8,10)}, {startDate.slice(0,4)} - {displayMonth(endDate.slice(5,7))} {endDate.slice(8,10)}, {endDate.slice(0,4)}</p>
                   
                   <div className='displayFlex'>
-                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                    <div className={User.id === user?.id && newReservationStartDate > minAllowedDate ? "" : "visibilityHidden"}>
                       <SubtleOpenModalButton
                           buttonText="Delete"
                           modalComponent={<DeleteReservationModal {...props}/>}
