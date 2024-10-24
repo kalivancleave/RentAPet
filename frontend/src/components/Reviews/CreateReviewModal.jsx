@@ -14,6 +14,9 @@ import Logo from '../../../../static/rentAPetLogoDark.png';
 function CreateReviewModal(props) {
   const dispatch = useDispatch();
   const currentAnimal = useSelector(state => state.animals.animalDetails)
+  const animalReviews = useSelector(state => state.reviews.reviews)
+  const user = useSelector(state => state.session.user)
+  const userReview = animalReviews.find(review => review.userId === user.id)
 
   const [review, setReview] = useState('');
   const [stars, setStars] = useState();
@@ -30,6 +33,26 @@ function CreateReviewModal(props) {
 
   const handleSubmit = async() => {
     setErrors({})
+
+    if(review.length < 10) {
+      setErrors({
+        review: "Review length must be longer than 10 characters."
+      })
+    } else if (review.length > 256) {
+      setErrors({
+        review: "Review lenght must be less than 256 characters."
+      })
+      return errors
+    }
+    
+
+    if(userReview) {
+      setErrors({
+        stars: "You already created a review."
+      })
+      return errors
+    }
+
     await dispatch(createReview({
       review,
       stars,
@@ -68,6 +91,7 @@ function CreateReviewModal(props) {
   return(
     <div className='displayFlex flexColumn alignCenter'>
       <img className='smallLogo' src={Logo} />
+      {console.log(errors)}
 
       <div className="displayFlex alignBottom bottomPadding topPadding">
         <img className="imageShape" src={currentAnimal?.animalImage} />
@@ -86,6 +110,8 @@ function CreateReviewModal(props) {
               className='noBorder dropShadow textAreaSize littleMoreLeftMargin'
               onChange={(e) => setReview(e.target.value)}
             />
+          </div>
+          <div>
             {errors.review && <p>{errors.review}</p>}
           </div>
 
@@ -107,7 +133,9 @@ function CreateReviewModal(props) {
                 />
               )
             })}
-          {errors.stars && <p>{errors.stars}</p>}
+          </div>
+          <div>
+            {errors.stars && <p>{errors.stars}</p>}
           </div>
 
           <div className="fullWidth textCenter topMargin">

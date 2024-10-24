@@ -1,15 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchAnimals } from "../../store/animals";
-import { NavLink } from "react-router-dom";
 import { IoPawSharp } from "react-icons/io5";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 import IconOpenModalButton from "../OpenModalButton/IconOpenModalButton";
 import CreateAnimalModal from "../Animal/CreateAnimalModal";
 
 function HomePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const animalsList = useSelector(state => state.animals.animals?.Animals);
   const sessionUser = useSelector(state => state.session.user);
 
@@ -47,7 +48,7 @@ function HomePage() {
       <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder justifyContentCenter">
         {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
           <div key={id} className="displayFlex flexColumn alignCenter littleMoreMargin dropShadow frontPageCards">
-            <NavLink to={`/${id}`} className='noDecoration displayFlex alignCenter fullWidth'>
+            <div onClick={() => navigate(`/${id}`)} className='noDecoration displayFlex alignCenter fullWidth'>
               <div className="displayFlex flexColumn fullWidth">
 
                 <div className="displayFlex fullWidth alignCenter">
@@ -87,7 +88,7 @@ function HomePage() {
                 </div>
 
               </div>
-            </NavLink>
+            </div>
           </div>
         ))}
       </div>

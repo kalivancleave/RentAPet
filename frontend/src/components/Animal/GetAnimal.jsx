@@ -123,7 +123,7 @@ const GetAnimal = () => {
         <div className='halfWidth padding'>
           <div className='displayFlex alignCenter bottomMargin justifyContentCenter'>
             <p className='xx-largeFont header almostBlackFont noMargin'>Reviews</p>
-            <div className={user ? "leftPageBorder" : "visibilityHidden"}>
+            <div className={user && user.id !== animalInfo?.ownerId ? "leftPageBorder" : "visibilityHidden"}>
               <OpenModalButton
                   buttonText={`Review ${animalInfo?.name}`}
                   modalComponent={<CreateReviewModal animalId={id} />}
@@ -153,7 +153,7 @@ const GetAnimal = () => {
 
                   <div className="displayFlex alignBottom spaceBetween littleTopPadding">
                     <p className="noMargin font xx-largeFont almostBlackFont">&quot;</p>
-                    <p className="noMargin header mediumFont almostBlackFont">{review}</p>
+                    <p className="noMargin header mediumFont almostBlackFont wordWrap">{review}</p>
                     <p className="noMargin font xx-largeFont almostBlackFont">&quot;</p>
                   </div>
 

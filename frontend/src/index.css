@@ -260,6 +260,10 @@ textarea {
   flex-wrap: wrap;
 }
 
+.wordWrap {
+  word-wrap: break-word;
+}
+
 .spaceBetween {
   justify-content: space-between;
 }

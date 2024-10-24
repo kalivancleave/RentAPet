@@ -111,6 +111,7 @@ const CreateAnimalModal = (props) => {
               <option
                 value="Exotic"
               >Exotic</option>
+            <p className="visibilityHidden">Selected Type: {type}</p>
             </select>
             {errors.type && <p>{errors.type}</p>}
           </div>
@@ -131,7 +132,7 @@ const CreateAnimalModal = (props) => {
             {errors.price && <p>{errors.price}</p>}
           </div>
 
-          <p className="visibilityHidden">Selected Type: {type}</p>
+          
 
           <div className="fullWidth textCenter">
             <button type="submit">Create Pet</button>
