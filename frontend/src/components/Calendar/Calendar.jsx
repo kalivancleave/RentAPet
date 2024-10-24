@@ -70,25 +70,29 @@ function Calendar() {
       days.push(<div className='next-date'>{j}</div>);
     }
 
-    const backArrow = () => {
-      date.setMonth(date.getMonth() - 1);
-      Calendar()
-      {console.log(date)}
-    };
+    // const backArrow = () => {
+    //   date.setMonth(date.getMonth() - 1);
+    //   Calendar()
+    //   {console.log(date)}
+    // };
 
-    const forwardArrow = () => {
-      date.setMonth(date.getMonth() + 1);
-      Calendar()
-      {console.log(date)}
-    };
+    // const forwardArrow = () => {
+    //   date.setMonth(date.getMonth() + 1);
+    //   Calendar()
+    //   {console.log(date)}
+    // };
+
+    function sendAlert() {
+      alert("Feature coming soon!")
+    }
 
   return (
     <>
       <div id="calendar">
         <div id="calendar-header">
-          <span id="month-prev" className="change-month" onClick={backArrow}><IoIosArrowBack /></span>
+          <span id="month-prev" className="change-month" onClick={sendAlert}><IoIosArrowBack /></span>
           <h1 id="month">{`${months[date.getMonth()]} ${date.getFullYear()}`}</h1>
-          <span id="month-next" className="change-month" onClick={forwardArrow}><IoIosArrowForward /></span>
+          <span id="month-next" className="change-month" onClick={sendAlert}><IoIosArrowForward /></span>
         </div>
       
         <div id="calendar-body">{days.map((day, index) => (

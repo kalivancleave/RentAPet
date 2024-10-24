@@ -50,27 +50,40 @@ const UpdateAnimalModal = (props) => {
     await new Promise((resolve) => setTimeout(resolve))
   }
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  const newImage = {
+    animalId: animalId,
+    url: imageToUpload
+  }
+  
+  const updatedAnimal = {
+    id: animalId,
+    name: uName,
+    birthday: uBirthday,
+    type: uType,
+    price: uPrice
+  }
 
+  const handleUpdate = async () => {
     setErrors({})
 
-    const newImage = {
-      animalId: animalId,
-      url: imageToUpload
-    }
-    
-    const updatedAnimal = {
-      id: animalId,
-      name: uName,
-      birthday: uBirthday,
-      type: uType,
-      price: uPrice
+    if(uName.length < 2){
+      setErrors({
+        name: "Name must be longer than 2 characters."
+      })
+    } else if (uName.length > 30){
+      setErrors({
+        name: "Name must be shorter than 30 characters."
+      })
+    } else if (uPrice < 0){
+      setErrors({
+        price: "Price per night must be a positive number."
+      })
+      return errors
     }
 
-    await dispatch(createImage(newImage))
-    .then(async function refreshAnimalInformation() {
-      dispatch(updateAnimal(updatedAnimal))
+    await dispatch(updateAnimal(updatedAnimal))
+    .then(async function updatePetImage() {
+      dispatch(createImage(newImage))
       await wait();
     })
     .then(async function refreshAnimalDetails() {
@@ -89,7 +102,7 @@ const UpdateAnimalModal = (props) => {
       <img className='smallLogo' src={Logo} />
       <p className='header xx-largeFont noMargin almostBlackFont'>Update Pet</p>
 
-        <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={handleUpdate}>
+        <form onSubmit={(e) => e.preventDefault()} className='displayFlex flexColumn littleMoreTopPadding'>
 
           <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
             <img className="largeImageShape" src={currentAnimal?.animalImage} />
@@ -118,6 +131,8 @@ const UpdateAnimalModal = (props) => {
               required='required'
               value={uName}
             />
+          </div>
+          <div>
             {errors.name && <p>{errors.name}</p>}
           </div>
 
@@ -133,6 +148,8 @@ const UpdateAnimalModal = (props) => {
               value={uBirthday}
               min='1980-01-01'
             />
+          </div>
+          <div>
             {errors.birthday && <p>{errors.birthday}</p>}
           </div>
 
@@ -180,13 +197,15 @@ const UpdateAnimalModal = (props) => {
               required='required'
               placeholder="Price per night (USD)"
             />
+          </div>
+          <div>
             {errors.price && <p>{errors.price}</p>}
           </div>
-
+          
           <p className="visibilityHidden">Selected Type: {uType}</p>
 
           <div className="fullWidth textCenter">
-            <button type="submit">Update</button>
+            <button onClick={handleUpdate}>Update</button>
           </div>
 
         </form>

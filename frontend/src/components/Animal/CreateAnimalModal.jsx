@@ -13,7 +13,7 @@ const CreateAnimalModal = (props) => {
 
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState();
-  const [type, setType] = useState()
+  const [type, setType] = useState("Dog")
   const [price, setPrice] = useState();
 
   const [errors, setErrors] = useState({})
@@ -24,16 +24,31 @@ const CreateAnimalModal = (props) => {
     await new Promise((resolve) => setTimeout(resolve))
   }
 
+  let newAnimal = {}
+
+    newAnimal.userId = userId,
+    newAnimal.name = name,
+    newAnimal.birthday = birthday,
+    newAnimal.type = type,
+    newAnimal.price = price
+
   const animalDetails = async () => {
     setErrors({})
 
-    let newAnimal = {}
-
-      newAnimal.userId = userId,
-      newAnimal.name = name,
-      newAnimal.birthday = birthday,
-      newAnimal.type = type,
-      newAnimal.price = price
+    if(name.length < 2){
+      setErrors({
+        name: "Name must be longer than 2 characters."
+      })
+    } else if (name.length > 30){
+      setErrors({
+        name: "Name must be shorter than 30 characters."
+      })
+    } else if (price < 0){
+      setErrors({
+        price: "Price per night must be a positive number."
+      })
+      return errors
+    }
     
     await dispatch(createAnimal(newAnimal))
     .then(async function refreshAllAnimals() {
@@ -66,6 +81,8 @@ const CreateAnimalModal = (props) => {
               required='required'
               value={name}
             />
+          </div>
+          <div>
             {errors.name && <p>{errors.name}</p>}
           </div>
 
@@ -81,6 +98,8 @@ const CreateAnimalModal = (props) => {
               value={birthday}
               min='1980-01-01'
             />
+          </div>
+          <div>
             {errors.birthday && <p>{errors.birthday}</p>}
           </div>
 
@@ -129,12 +148,14 @@ const CreateAnimalModal = (props) => {
               required='required'
               placeholder="Price per night (USD)"
             />
+          </div>
+          <div>
             {errors.price && <p>{errors.price}</p>}
           </div>
 
           
 
-          <div className="fullWidth textCenter">
+          <div className="fullWidth textCenter topMargin">
             <button type="submit">Create Pet</button>
           </div>
         </form>
