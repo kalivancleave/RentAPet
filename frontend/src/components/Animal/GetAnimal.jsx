@@ -26,7 +26,6 @@ const GetAnimal = () => {
   const animalInfo = useSelector(state => state.animals.animalDetails)
   const animalReviews = useSelector(state => state.reviews.reviews)
   const animalReservations = useSelector(state => state.reservations.reservations)
-  const animalImages = useSelector(state => state.images.animalImages)
 
   const user = useSelector(state => state.session.user)
 
@@ -81,7 +80,7 @@ const GetAnimal = () => {
               />
           </div>
         </div>
-        {console.log(animalInfo?.animalImages[(animalInfo?.animalImages.length -1)].url)}
+        {console.log(animalInfo?.animalImages[(animalInfo?.animalImages.length -1)]?.url)}
         <div className={user && user?.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
           <OpenModalButton
               buttonText="Reserve"
@@ -96,7 +95,7 @@ const GetAnimal = () => {
             <p className='xx-largeFont header almostBlackFont noMargin padding'>{animalInfo?.name}</p>
           </div>
           <div className='textCenter'>
-            <img className="largeImageShape" src={animalInfo?.animalImages[(animalInfo?.animalImages.length -1)].url} />
+            <img className="largeImageShape" src={animalInfo?.animalImages[(animalInfo?.animalImages.length -1)]?.url ? animalInfo?.animalImages[(animalInfo?.animalImages.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
           </div>
         </div>
 

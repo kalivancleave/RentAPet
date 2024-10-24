@@ -102,12 +102,12 @@ const UpdateAnimalModal = (props) => {
     <div className='displayFlex flexColumn alignCenter'>
       <img className='smallLogo' src={Logo} />
       <p className='header xx-largeFont noMargin almostBlackFont'>Update Pet</p>
-      {console.log(currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)].url)}
+      {console.log(currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)]?.url)}
 
         <form onSubmit={(e) => e.preventDefault()} className='displayFlex flexColumn littleMoreTopPadding'>
 
           <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
-            <img className="largeImageShape" src={currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)].url} />
+            <img className="largeImageShape" src={currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url ? currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
           </div>
 
           <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
