@@ -95,7 +95,7 @@ function CreateReservationModal(props) {
 
       {console.log(allReservations)}
       <div className="displayFlex flexColumn alignCenter bottomPadding topPadding">
-        <img className="imageShape" src={currentAnimal?.animalImage} />
+        <img className="imageShape" src={currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url ? currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
         <p className='header xx-largeFont noMargin almostBlackFont'>Reserve {currentAnimal.name}</p>
       </div>
 

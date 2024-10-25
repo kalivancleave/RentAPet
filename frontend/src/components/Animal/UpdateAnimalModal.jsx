@@ -184,6 +184,7 @@ const UpdateAnimalModal = (props) => {
               <option
                 value="Exotic"
               >Exotic</option>
+            <p className="visibilityHidden">Selected Type: {uType}</p>
             </select>
             {errors.type && <p>{errors.type}</p>}
           </div>
@@ -205,8 +206,6 @@ const UpdateAnimalModal = (props) => {
           <div>
             {errors.price && <p>{errors.price}</p>}
           </div>
-
-          <p className="visibilityHidden">Selected Type: {uType}</p>
 
           <div className="fullWidth textCenter">
             <button onClick={handleUpdate}>Update</button>

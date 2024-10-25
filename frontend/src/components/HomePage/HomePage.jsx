@@ -46,14 +46,15 @@ function HomePage() {
       </div>
 
       <div className="displayFlex noPadding flexWrap leftPageBorder rightPageBorder justifyContentCenter">
-        {animalsList?.map(({ id, birthday, name, price, type, animalImage, averageRating}) => (
+        {console.log(animalsList)}
+        {animalsList?.map(({ id, birthday, name, price, type, animalImages, averageRating}) => (
           <div key={id} className="displayFlex flexColumn alignCenter littleMoreMargin dropShadow frontPageCards">
             <div onClick={() => navigate(`/${id}`)} className='noDecoration displayFlex alignCenter fullWidth'>
               <div className="displayFlex flexColumn fullWidth">
 
                 <div className="displayFlex fullWidth alignCenter">
                   <div className="displayFlex threeQuarterWidth">
-                    <img className='imageShape' src={animalImage} />
+                    <img className='imageShape' src={animalImages[(animalImages?.length -1)]?.url ? animalImages[(animalImages?.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
                     <p className="font almostBlackFont xx-largeFont leftPadding">{name}</p>
                   </div>
                   <div className="displayFlex alignBottom quarterWidth">
