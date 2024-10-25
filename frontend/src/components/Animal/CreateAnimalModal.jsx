@@ -43,6 +43,10 @@ const CreateAnimalModal = (props) => {
       setErrors({
         name: "Name must be shorter than 30 characters."
       })
+    } else if (birthday === undefined){
+      setErrors({
+        birthday: "Birthday cannot be blank."
+      })
     } else if (price < 0){
       setErrors({
         price: "Price per night must be a positive number."

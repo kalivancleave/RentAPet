@@ -44,6 +44,17 @@ function CreateReservationModal(props) {
       return errors
     }
 
+    if(startDate === ""){
+      setErrors({
+        startDate: "Cannot save a reservation without a start date."
+      })
+    } else if (endDate === ""){
+      setErrors({
+        endDate: "Cannot save a reservation without an end date"
+      })
+      return errors
+    }
+
     //reservation conflicts
     for(let i = 0; i < allReservations.length; i++){
       let reservation = allReservations[i];
