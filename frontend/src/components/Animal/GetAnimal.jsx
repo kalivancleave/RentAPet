@@ -137,7 +137,7 @@ const GetAnimal = () => {
         <div className='halfWidth padding'>
           <div className='displayFlex alignCenter bottomMargin justifyContentCenter'>
             <p className='xx-largeFont header almostBlackFont noMargin'>Reviews</p>
-            <div className={user && user.id !== animalInfo?.ownerId ? "leftPageBorder" : "visibilityHidden"}>
+            <div className={user && user?.id !== animalInfo?.ownerId ? "leftPageBorder" : "visibilityHidden"}>
               <OpenModalButton
                   buttonText={`Review ${animalInfo?.name}`}
                   modalComponent={<CreateReviewModal animalId={id} />}
@@ -155,7 +155,7 @@ const GetAnimal = () => {
 
                   <div className='displayFlex spaceBetween'>
                     <div className="displayFlex alignBottom spaceBetween littleTopPadding">
-                      <p className="noMargin header mediumFont almostBlackFont">{displayMonth(createdAt?.slice(5,7))} {createdAt?.slice(8,10)} {createdAt?.slice(0,4)}</p>
+                      <p className="noMargin header mediumFont almostBlackFont">{displayMonth(createdAt.slice(5,7))} {createdAt.slice(8,10)} {createdAt.slice(0,4)}</p>
                     </div>
 
                     <div className='displayFlex alignBottom'>
@@ -175,13 +175,13 @@ const GetAnimal = () => {
                   </div>
 
                   <div className='displayFlex'>
-                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                    <div className={User?.id === user?.id ? "" : "visibilityHidden"}>
                       <SubtleOpenModalButton
                           buttonText="Delete"
                           modalComponent={<DeleteReviewModal {...props}/>}
                           />
                     </div>
-                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                    <div className={User?.id === user?.id ? "" : "visibilityHidden"}>
                       <SubtleOpenModalButton
                           buttonText="Update"
                           modalComponent={<UpdateReviewModal {...props}/>}
@@ -212,13 +212,13 @@ const GetAnimal = () => {
                   <p className="noMargin header mediumFont almostBlackFont littleMoreTopPadding textCenter">{displayMonth(startDate.slice(5,7))} {startDate.slice(8,10)}, {startDate.slice(0,4)} - {displayMonth(endDate.slice(5,7))} {endDate.slice(8,10)}, {endDate.slice(0,4)}</p>
                   
                   <div className='displayFlex'>
-                    <div className={User.id === user?.id && newReservationStartDate > minAllowedDate ? "" : "visibilityHidden"}>
+                    <div className={User?.id === user?.id && newReservationStartDate > minAllowedDate ? "" : "visibilityHidden"}>
                       <SubtleOpenModalButton
                           buttonText="Delete"
                           modalComponent={<DeleteReservationModal {...props}/>}
                           />
                     </div>
-                    <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+                    <div className={User?.id === user?.id ? "" : "visibilityHidden"}>
                       <SubtleOpenModalButton
                           buttonText="Update"
                           modalComponent={<UpdateReservationModal {...props}/>}
