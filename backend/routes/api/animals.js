@@ -16,8 +16,8 @@ const validateAnimal = [
     .exists({checkFalsy: true})
     .isString()
     .isLength({
-      min: 1,
-      max: 49
+      min: 2,
+      max: 30
     })
     .withMessage('Name is required'),
   check('birthday')
@@ -78,11 +78,11 @@ router.get('/', async(req, res, next) => {
       const averageRating = (sumOfStars/reviews.length).toFixed(2)
 
       //find the image for the animalId
-      const animalImage = await Image.findOne({
-        attributes: ['url'],
+      const animalImages = await Image.findAll({
         where: {
           animalId: animal.id
-        }
+        },
+        attributes: ['url']
       });
       
       const payload = {
@@ -95,12 +95,12 @@ router.get('/', async(req, res, next) => {
         averageRating: parseFloat(averageRating)
       }
 
-      if(!animalImage){
-        payload.animalImage = "https://res.cloudinary.com/djnfjzocb/image/upload/v1721880630/image-placeholder_xsvyni.png"
+      if(!animalImages){
+        payload.animalImages = "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"
       } else {
-        payload.animalImage = animalImage.url
+        payload.animalImages = [...animalImages]
       }
-
+  
       updatedAnimals.push(payload)
     }
 
@@ -179,11 +179,11 @@ router.get('/:animalId', async(req, res, next) => {
     }
 
     //find animal image with that id
-    const animalImage = await Image.findOne({
-      attributes: ['url'],
+    const animalImages = await Image.findAll({
       where: {
         animalId: animal.id
-      }
+      },
+      attributes: ['url']
     });
 
     //find reviews with that id
@@ -224,10 +224,10 @@ router.get('/:animalId', async(req, res, next) => {
       Owner: owner
     }
 
-    if(!animalImage){
-      updatedAnimal.animalImage = "https://res.cloudinary.com/djnfjzocb/image/upload/v1721880630/image-placeholder_xsvyni.png"
+    if(!animalImages){
+      updatedAnimal.animalImages = "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"
     } else {
-      updatedAnimal.animalImage = animalImage.url
+      updatedAnimal.animalImages = [...animalImages]
     }
 
     res.json(updatedAnimal)
@@ -354,7 +354,16 @@ router.get('/:animalId/reservations', requireAuth, async(req, res, next) => {
       for (let i = 0; i < reservations.length; i++) {
         let reservation = reservations[i];
 
+        const user = await User.findOne({
+          where: {
+            id: reservation.userId
+          },
+          attributes: ['id', 'firstName', 'lastName']
+        });
+
         const nonOwnerReservationInfo = {
+          User: user,
+          id: reservation.id,
           animalId: reservation.animalId,
           startDate: reservation.startDate.toISOString().split('T')[0],
           endDate: reservation.endDate.toISOString().split('T')[0]

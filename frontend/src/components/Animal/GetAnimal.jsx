@@ -1,17 +1,23 @@
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { IoPawSharp } from "react-icons/io5";
 
 import { fetchOneAnimal } from '../../store/animals';
 import { fetchAnimalReviews } from '../../store/reviews';
+import { fetchAnimalReservations } from '../../store/reservations';
 
 import OpenModalButton from '../OpenModalButton';
+import SubtleOpenModalButton from '../OpenModalButton/SubtleOpenModalButton';
 import DeleteReviewModal from '../Reviews/DeleteReviewModal';
 import CreateReviewModal from '../Reviews/CreateReviewModal';
 import UpdateReviewModal from '../Reviews/UpdateReviewModal';
 import DeleteAnimalModal from './DeleteAnimalModal';
 import UpdateAnimalModal from './UpdateAnimalModal';
 import CreateReservationModal from '../Reservations/CreateReservationModal';
+import UpdateReservationModal from '../Reservations/UpdateReservationModal';
+import DeleteReservationModal from '../Reservations/DeleteReservationModal';
+import Calendar from '../Calendar/Calendar';
 
 
 const GetAnimal = () => {
@@ -19,12 +25,17 @@ const GetAnimal = () => {
   const dispatch = useDispatch();
   const animalInfo = useSelector(state => state.animals.animalDetails)
   const animalReviews = useSelector(state => state.reviews.reviews)
+  const animalReservations = useSelector(state => state.reservations.reservations)
 
   const user = useSelector(state => state.session.user)
+
+  let minAllowedDate = new Date()
+  let newReservationStartDate
 
   useEffect(() => {
     dispatch(fetchOneAnimal(id))
     dispatch(fetchAnimalReviews(id))
+    dispatch(fetchAnimalReservations(id))
   }, [dispatch, id])
 
   function displayMonth(number) {
@@ -42,75 +53,187 @@ const GetAnimal = () => {
     if(number === "12") return "December"
   }
 
+  function sortedReviews(a, b) {
+    return new Date(b?.createdAt) - new Date(a?.createdAt)
+  }
+  let sortedReviewsBig2Small = animalReviews.sort(sortedReviews)
+
+  function sortedDates(a, b) {
+    return new Date(a?.startDate) - new Date(b?.startDate)
+  }
+  let sortedReservations = animalReservations.sort(sortedDates)
+  
+
   let props = {
+    userId: user?.id,
     animalId: "",
     reviewId: "",
+    reservationId: ""
   }
 
   return (
-    <>
-      <h1>Animal #{id}</h1>
-      <div className='visibilityHidden'>
-        {props.animalId = id}
+    <div className='displayFlex flexColumn rightPageBorder leftPageBorder topMargin'>
+      <div className='displayFlex spaceBetween alignCenter'>
+        <div className='displayFlex'>
+          <div className='visibilityHidden'>
+            {props.animalId = id}
+          </div>
+          <div className={animalInfo?.ownerId === user?.id ? "littleRightMargin" : "visibilityHidden"}>
+            <OpenModalButton
+                buttonText="Delete Animal"
+                modalComponent={<DeleteAnimalModal {...props}/>}
+              />
+          </div>
+          <div className={animalInfo?.ownerId === user?.id ? "littleLeftMargin" : "visibilityHidden"}>
+            <OpenModalButton
+                buttonText="Update Animal"
+                modalComponent={<UpdateAnimalModal {...props}/>}
+              />
+          </div>
+        </div>
+        {console.log(animalInfo?.animalImages[(animalInfo?.animalImages.length -1)]?.url)}
+        <div className={user && user?.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
+          <OpenModalButton
+              buttonText="Reserve"
+              modalComponent={<CreateReservationModal {...props}/>}
+            />
+        </div>
       </div>
-      <div className={animalInfo?.ownerId === user?.id ? "" : "visibilityHidden"}>
-        <OpenModalButton
-            buttonText="Delete Animal"
-            modalComponent={<DeleteAnimalModal {...props}/>}
-          />
-      </div>
-      <div className={animalInfo?.ownerId === user?.id ? "" : "visibilityHidden"}>
-        <OpenModalButton
-            buttonText="Update Animal"
-            modalComponent={<UpdateAnimalModal {...props}/>}
-          />
-      </div>
-      {console.log(animalInfo)}
-      <h2>{animalInfo?.name}</h2>
-      <div className={user && user.id !== animalInfo?.ownerId ? "" : "visibilityHidden"}>
-        <OpenModalButton
-            buttonText="Reserve"
-            modalComponent={<CreateReservationModal {...props}/>}
-          />
-      </div>
-      <img src={animalInfo?.animalImage} />
-      <p>{animalInfo?.averageStars}</p>
-      <p>{animalInfo?.type}</p>
-      <p>{animalInfo?.birthday}</p>
-      <p>{animalInfo?.price}</p>
 
-      <h2>Reviews</h2>
-      {/* import reviews display */}
-      {console.log(animalReviews)}
-      <div className='noDecoration'>
-        {animalReviews?.map(({id, review, User, stars, createdAt}) => (
-          <div key={id}>
-              {props.reviewId = id}
-              <p>{`${User.firstName} ${User.lastName}`}</p>
-              <p>{displayMonth(createdAt.slice(5,7))} {createdAt.slice(0,4)}</p>
-              <p>{review}</p>
-              <p>{stars}</p>
-            <div className={User.id === user?.id ? "" : "visibilityHidden"}>
+      <div className='displayFlex justifyContentCenter topMargin alignCenter'>
+        <div className='quarterWidth moreBottomPadding'>
+          <div className='textCenter'>
+            <p className='xx-largeFont header almostBlackFont noMargin padding'>{animalInfo?.name}</p>
+          </div>
+          <div className='textCenter'>
+            <img className="largeImageShape" src={animalInfo?.animalImages[(animalInfo?.animalImages.length -1)]?.url ? animalInfo?.animalImages[(animalInfo?.animalImages.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
+          </div>
+        </div>
+
+        <div className='quarterWidth'>
+          <div className='displayFlex alignBottom justifyContentRight littleMoreBottomPadding'>
+            <p className="noMargin header mediumFont almostBlackFont">{typeof animalInfo?.averageStars === 'number' ? animalInfo?.averageStars.toFixed(1) : "New"}</p>
+            <IoPawSharp className="x-largeFont font darkGreenFont littleLeftMargin"/>
+          </div>
+
+          <div className="displayFlex alignBottom spaceBetween">
+            <p className="noMargin font mediumFont almostBlackFont">Birthday</p>
+            <p className="noMargin header mediumFont almostBlackFont">{displayMonth(animalInfo?.birthday.slice(5,7))} {animalInfo?.birthday.slice(8,10)}, {animalInfo?.birthday.slice(0,4)}</p>
+          </div>
+
+          <div className="displayFlex alignBottom spaceBetween littleTopPadding">
+            <p className="noMargin font mediumFont almostBlackFont">Price</p>
+            <p className="noMargin header mediumFont almostBlackFont">${animalInfo?.price.toFixed(2)} per night</p>
+          </div>
+
+          <div className="displayFlex alignBottom spaceBetween littleTopPadding">
+            <p className="noMargin font mediumFont almostBlackFont">Type</p>
+            <p className="noMargin header mediumFont almostBlackFont">{animalInfo?.type}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className='displayFlex topMargin'>
+        <div className='halfWidth padding'>
+          <div className='displayFlex alignCenter bottomMargin justifyContentCenter'>
+            <p className='xx-largeFont header almostBlackFont noMargin'>Reviews</p>
+            <div className={user && user?.id !== animalInfo?.ownerId ? "leftPageBorder" : "visibilityHidden"}>
               <OpenModalButton
-                  buttonText="Delete"
-                  modalComponent={<DeleteReviewModal {...props}/>}
-                />
-            </div>
-            <div className={User.id === user?.id ? "" : "visibilityHidden"}>
-              <OpenModalButton
-                  buttonText="Update"
-                  modalComponent={<UpdateReviewModal {...props}/>}
+                  buttonText={`Review ${animalInfo?.name}`}
+                  modalComponent={<CreateReviewModal animalId={id} />}
                 />
             </div>
           </div>
-        ))}
+
+          <div className='displayFlex spaceEvenly'>
+            <div className='noDecoration'>
+              {sortedReviewsBig2Small?.map(({id, review, User, stars, createdAt}) => (
+                <div key={id} className='reviewCards dropShadow moreBottomMargin'>
+                  <div className='visibilityHidden'>
+                    {props.reviewId = id}
+                  </div>
+
+                  <div className='displayFlex spaceBetween'>
+                    <div className="displayFlex alignBottom spaceBetween littleTopPadding">
+                      <p className="noMargin header mediumFont almostBlackFont">{displayMonth(createdAt.slice(5,7))} {createdAt.slice(8,10)} {createdAt.slice(0,4)}</p>
+                    </div>
+
+                    <div className='displayFlex alignBottom'>
+                      <p className="noMargin header mediumFont almostBlackFont">{stars}</p>
+                      <IoPawSharp className="x-largeFont font darkGreenFont littleLeftMargin"/>
+                    </div>
+                  </div>  
+
+                  <div className="displayFlex alignBottom spaceBetween littleTopPadding">
+                    <p className="noMargin font xx-largeFont almostBlackFont">&quot;</p>
+                    <p className="noMargin header mediumFont almostBlackFont wordWrap">{review}</p>
+                    <p className="noMargin font xx-largeFont almostBlackFont">&quot;</p>
+                  </div>
+
+                  <div className="displayFlex alignBottom spaceBetween littleTopPadding justifyContentRight">
+                    <p className="noMargin font mediumFont almostBlackFont">~{`${User.firstName} ${User.lastName}`}</p>
+                  </div>
+
+                  <div className='displayFlex'>
+                    <div className={User?.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Delete"
+                          modalComponent={<DeleteReviewModal {...props}/>}
+                          />
+                    </div>
+                    <div className={User?.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Update"
+                          modalComponent={<UpdateReviewModal {...props}/>}
+                          />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className='halfWidth padding'>
+          <div className='displayFlex alignCenter bottomMargin justifyContentCenter'>
+            <p className='xx-largeFont header almostBlackFont noMargin'>Reservations</p>
+          </div>
+          <Calendar />
+
+          <div className='displayFlex flexColumn alignCenter topPadding'>
+            <p className='mediumFont header almostBlackFont noMargin littleBottomPadding'>Currently Booked Dates:</p>
+              {sortedReservations?.map(({id, startDate, endDate, User}) => (
+                <div key={id} className='displayFlex flexColumn dropShadow reservationCards moreBottomMargin'>
+                  <div className='visibilityHidden'>
+                    {newReservationStartDate = new Date(startDate).getTime()}
+                    {props.reservationId = id}
+                  </div>
+                  <p className="noMargin font mediumFont almostBlackFont">{User?.firstName}</p>
+                  <p className="noMargin header mediumFont almostBlackFont littleMoreTopPadding textCenter">{displayMonth(startDate.slice(5,7))} {startDate.slice(8,10)}, {startDate.slice(0,4)} - {displayMonth(endDate.slice(5,7))} {endDate.slice(8,10)}, {endDate.slice(0,4)}</p>
+                  
+                  <div className='displayFlex'>
+                    <div className={User?.id === user?.id && newReservationStartDate > minAllowedDate ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Delete"
+                          modalComponent={<DeleteReservationModal {...props}/>}
+                          />
+                    </div>
+                    <div className={User?.id === user?.id ? "" : "visibilityHidden"}>
+                      <SubtleOpenModalButton
+                          buttonText="Update"
+                          modalComponent={<UpdateReservationModal {...props}/>}
+                          />
+                    </div>
+                  </div>
+                </div> 
+              ))}
+          </div> 
+        </div>
+
       </div>
 
-      <OpenModalButton
-          buttonText="Review This Pet"
-          modalComponent={<CreateReviewModal animalId={id} />}
-        />
-    </>
+      
+    </div>
   )
 
 }

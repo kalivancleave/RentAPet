@@ -4,6 +4,8 @@ import { deleteReview } from '../../store/reviews';
 import { fetchOneAnimal } from '../../store/animals';
 import { useModal } from '../../context/Modal';
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 function DeleteReviewModal(props) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
@@ -29,12 +31,18 @@ function DeleteReviewModal(props) {
 
 
   return(
-    <>
-      <h1>Delete Review Modal</h1>
-      <p>Are you sure you want to delete this review?</p>
-      <button onClick={() => deleteReviewFunction()}>Yes</button>
-      <button onClick={doNotDelete}>No</button>
-    </>
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+
+        <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+          <p className='header xx-largeFont noMargin almostBlackFont'>Are you sure you want to delete this review?</p>
+        </div>
+
+        <div className="displayFlex flexColumn fullWidth alignCenter topMargin textCenter">
+          <button onClick={() => deleteReviewFunction()}>Yes</button>
+          <button className="subtleButton" onClick={doNotDelete}>No, keep my review</button>
+        </div>
+    </div>
   )
 }
 

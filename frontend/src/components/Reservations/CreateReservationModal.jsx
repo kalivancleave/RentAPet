@@ -1,20 +1,29 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 
 import { createReservation } from "../../store/reservations";
 import { fetchAnimalReservations } from "../../store/reservations";
 import { fetchOneAnimal } from "../../store/animals";
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 function CreateReservationModal(props) {
   const dispatch = useDispatch();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const currentAnimal = useSelector(state => state.animals.animalDetails)
+  const allReservations = useSelector(state => state.reservations.reservations)
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [errors, setErrors] = useState({})
 
   const { closeModal } = useModal();
 
   const animalId = props.animalId
+
+  let minAllowedDate = new Date()
+  let newReservationStartDate = new Date(startDate).getTime();
+  let newReservationEndDate = new Date(endDate).getTime();
 
   async function wait() {
     await new Promise((resolve) => setTimeout(resolve))
@@ -22,6 +31,45 @@ function CreateReservationModal(props) {
 
   const handleSubmit = async() => {
     setErrors({})
+
+    //bad requests
+    if(newReservationEndDate <= newReservationStartDate){
+      setErrors({
+        endDate: "End date cannot be on or before start date."
+      })
+    } else if (newReservationStartDate < minAllowedDate){
+      setErrors({
+        startDate: "Start date cannot be a date in the past."
+      })
+      return errors
+    }
+
+    //reservation conflicts
+    for(let i = 0; i < allReservations.length; i++){
+      let reservation = allReservations[i];
+
+      let date1 = new Date(reservation.startDate).getTime();
+      let date2 = new Date(reservation.endDate).getTime();
+
+      if(newReservationEndDate >= date1 && newReservationEndDate <= date2){
+        setErrors({
+          startDate: "Dates conflict with an existing reservation.",
+          endDate: "Dates conflict with an existing reservation."
+        })
+      } else if (newReservationStartDate >= date1 && newReservationStartDate <= date2){
+        setErrors({
+          startDate: "Dates conflict with an existing reservation.",
+          endDate: "Dates conflict with an existing reservation."
+        })
+      } else if (newReservationStartDate <= date1 && newReservationEndDate >= date2){
+        setErrors({
+          startDate: "Dates conflict with an existing reservation.",
+          endDate: "Dates conflict with an existing reservation."
+        })
+        return errors
+      }
+    }
+
     await dispatch(createReservation({
       startDate: startDate,
       endDate: endDate,
@@ -42,35 +90,56 @@ function CreateReservationModal(props) {
   let formattedDate = today.toISOString().split('T')[0];
 
   return (
-    <>
-      <h1>Create Reservation Modal</h1>
-      <p>Reserve This Pet</p>
-      {console.log(startDate)}
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label>
-          Start Date
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+
+      {console.log(allReservations)}
+      <div className="displayFlex flexColumn alignCenter bottomPadding topPadding">
+        <img className="imageShape" src={currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url ? currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
+        <p className='header xx-largeFont noMargin almostBlackFont'>Reserve {currentAnimal.name}</p>
+      </div>
+
+        <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={(e) => e.preventDefault()}>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Start Date
+            </label>
+
             <input
               onChange={(e) => setStartDate(e.target.value)}
               type="date"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
               value={startDate}
               min={formattedDate}
             />
-        </label>
-        {errors.startDate && <p>{errors.startDate}</p>}
+          </div>
+          <div>
+            {errors.startDate && <p>{errors.startDate}</p>}
+          </div>
 
-        <label>
-          End Date
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              End Date
+            </label>
+
             <input
               onChange={(e) => setEndDate(e.target.value)}
               type="date"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
               value={endDate}
             />
-        </label>
-        {errors.endDate && <p>{errors.endDate}</p>}
+          </div>
+          <div>
+            {errors.endDate && <p>{errors.endDate}</p>}
+          </div>
 
-        <button onClick={handleSubmit}>Reserve Now!</button>
-      </form>
-    </>
+          <div className="fullWidth textCenter topMargin">
+            <button onClick={handleSubmit}>Reserve Now!</button>
+          </div>
+
+        </form>
+    </div>
   )
 }
 

@@ -4,6 +4,9 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import Logo from '../../../../static/rentAPetLogoDark.png';
 
+import SignupFormModal from '../SignupFormModal/SignupFormModal';
+import SubtleOpenModalButton from '../OpenModalButton/SubtleOpenModalButton';
+
 function LoginFormModal() {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
@@ -38,8 +41,12 @@ function LoginFormModal() {
       <p className='header xx-largeFont noMargin almostBlackFont'>Log In</p>
       
         <form className='displayFlex flexColumn littleMoreTopPadding' onSubmit={handleSubmit}>
-          <label className='largeFont displayFlex spaceAround topPadding font almostBlackFont'>
-            Username
+          
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Username
+            </label>
+
             <input
               type="text"
               className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
@@ -47,9 +54,13 @@ function LoginFormModal() {
               onChange={(e) => setCredential(e.target.value)}
               required
             />
-          </label>
-          <label className='largeFont displayFlex topPadding spaceAround font almostBlackFont'>
-            Password
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Password
+            </label>
+
             <input
               type="password"
               className='noBorder dropShadow logInInputSize littleMoreLeftMargin'
@@ -57,10 +68,10 @@ function LoginFormModal() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </label>
-          {errors.credential && (
-            <p>{errors.credential}</p>
-          )}
+
+            {errors.credential && <p>{errors.credential}</p>}
+          </div>
+          
           <div className='textCenter littleMoreTopPadding'>
             <button type="submit"
                     className=''>Log In</button>
@@ -70,6 +81,12 @@ function LoginFormModal() {
                     className='alternateButton'
                     onClick={() => demoLogin()}>Demo Login</button>
           </div>
+          <div className='moreTopPadding '>
+            <SubtleOpenModalButton
+            buttonText="Click Here to Register"
+            modalComponent={<SignupFormModal />}
+            />
+          </div>  
         </form>
     
     </div>

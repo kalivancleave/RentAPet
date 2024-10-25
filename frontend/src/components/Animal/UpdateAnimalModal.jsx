@@ -6,6 +6,8 @@ import { updateAnimal } from "../../store/animals";
 import { fetchOneAnimal } from "../../store/animals";
 import { createImage } from "../../store/images";
 
+import Logo from '../../../../static/rentAPetLogoDark.png';
+
 const UpdateAnimalModal = (props) => {
   const animalId = props.animalId
   const dispatch = useDispatch();
@@ -16,11 +18,10 @@ const UpdateAnimalModal = (props) => {
   const [uType, setType] = useState(currentAnimal?.type);
   const [uPrice, setPrice] = useState(currentAnimal?.price)
 
-  const [imageSelected, setImageSelected] = useState("");
-  // const [readyToSubmit, setReadyToSubmit] = useState(false);
-  // const [uploadPhoto, setUploadPhoto] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  const [imageToUpload, setImageToUpload] = useState('');
+  const [errors, setErrors] = useState({})
+
+  const [imageSelected, setImageSelected] = useState();
+  const [imageToUpload, setImageToUpload] = useState();
 
   const { closeModal } = useModal();
 
@@ -28,7 +29,6 @@ const UpdateAnimalModal = (props) => {
   let imageURL;
   const uploadImage = async (e) => {
     e.preventDefault();
-    // setIsLoading(true);
     const formData = new FormData()
     formData.append('file', imageSelected)
     formData.append("upload_preset", "rentapet")
@@ -44,37 +44,50 @@ const UpdateAnimalModal = (props) => {
     const imageData =  await response.json()
     imageURL = imageData.url.toString() //this gets stored to image database
     setImageToUpload(imageURL)
-    
-
-    // setUploadPhoto(true) //validation
-    // setReadyToSubmit(true)
-    // setIsLoading(false)
   } 
 
   async function wait() {
     await new Promise((resolve) => setTimeout(resolve))
   }
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  const newImage = {
+    animalId: animalId,
+    url: imageToUpload
+  }
+  
+  const updatedAnimal = {
+    id: animalId,
+    name: uName,
+    birthday: uBirthday,
+    type: uType,
+    price: uPrice
+  }
 
-    const newImage = {
-      animalId: animalId,
-      url: imageToUpload
-    }
-    
-    const updatedAnimal = {
-      id: animalId,
-      name: uName,
-      birthday: uBirthday,
-      type: uType,
-      price: uPrice
+  const handleUpdate = async () => {
+    setErrors({})
+
+    if(uName.length < 2){
+      setErrors({
+        name: "Name must be longer than 2 characters."
+      })
+    } else if (uName.length > 30){
+      setErrors({
+        name: "Name must be shorter than 30 characters."
+      })
+    } else if (uPrice < 0){
+      setErrors({
+        price: "Price per night must be a positive number."
+      })
+      return errors
     }
 
-    await dispatch(createImage(newImage))
-    .then(async function refreshAnimalInformation() {
-      dispatch(updateAnimal(updatedAnimal))
-      await wait();
+    dispatch(updateAnimal(updatedAnimal))
+    await wait()
+    .then(async function uploadImageIfNeeded() {
+      if(imageSelected !== undefined){
+        dispatch(createImage(newImage))
+        await wait();
+      }
     })
     .then(async function refreshAnimalDetails() {
       dispatch(fetchOneAnimal(animalId))
@@ -88,89 +101,118 @@ const UpdateAnimalModal = (props) => {
   }
 
   return(
-    <>
-      <h1>Update Animal Modal</h1>
-      {console.log(currentAnimal.price)}
-      {console.log(imageToUpload)}
-      <form onSubmit={handleUpdate}>
+    <div className='displayFlex flexColumn alignCenter'>
+      <img className='smallLogo' src={Logo} />
+      <p className='header xx-largeFont noMargin almostBlackFont'>Update Pet</p>
+      {console.log(currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)]?.url)}
 
-        <img src={currentAnimal?.animalImage} />
-        <label>
-          <input 
-            type='file'
-            accept='.jpeg, .png, .jpg'
-            className='blackBorder'
-            required='required'
-            onInput={(e) => {setImageSelected(e.target.files[0])}}
-            onChange={uploadImage}
+        <form onSubmit={(e) => e.preventDefault()} className='displayFlex flexColumn littleMoreTopPadding'>
+
+          <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+            <img className="largeImageShape" src={currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url ? currentAnimal?.animalImages[(currentAnimal?.animalImages.length -1)]?.url : "https://res.cloudinary.com/djnfjzocb/image/upload/v1729795034/coming_soon_saglbm.jpg"} />
+          </div>
+
+          <div className='displayFlex justifyContentCenter topPadding fullWidth spaceBetween'>
+            <input 
+              type='file'
+              accept='.jpeg, .png, .jpg'
+              className='blackBorder'
+              onInput={(e) => {setImageSelected(e.target.files[0])}}
+              onChange={uploadImage}
+              />
+          </div>
+
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Name
+            </label>
+
+            <input
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin' 
+              placeholder="name"
+              required='required'
+              value={uName}
             />
-        </label>
+          </div>
+          <div>
+            {errors.name && <p>{errors.name}</p>}
+          </div>
 
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Birthday
+            </label>
 
-      <label>
-          Name
-          <input
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-            placeholder="name"
-            required='required'
-            value={uName}
-          />
-        </label>
+            <input
+              onChange={(e) => setBirthday(e.target.value)}
+              type="date"  
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin'     
+              value={uBirthday}
+              min='1980-01-01'
+            />
+          </div>
+          <div>
+            {errors.birthday && <p>{errors.birthday}</p>}
+          </div>
 
-        <label>
-          Birthday
-          <input
-            onChange={(e) => setBirthday(e.target.value)}
-            type="date"      
-            value={uBirthday}
-            min='1980-01-01'
-          />
-        </label>
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Type
+            </label>
 
-        <label>
-          Type
-          <select value={uType} onChange={handleChange}>
-            <option
-              value="Dog"
-            >Dog</option>
-            <option
-              value="Cat"
-            >Cat</option>
-            <option
-              value="Bird"
-            >Bird</option>
-            <option
-              value="Horse"
-            >Horse</option>
-            <option
-              value="Reptile"
-            >Reptile</option>
-            <option
-              value="Rodent"
-            >Rodent</option>
-            <option
-              value="Exotic"
-            >Exotic</option>
-          </select>
-          <p className="visibilityHidden">Selected Type: {uType}</p>
-        </label>
+            <select value={uType} onChange={handleChange} className='noBorder dropShadow logInInputSize littleMoreLeftMargin'>
+              <option
+                value="Dog"
+              >Dog</option>
+              <option
+                value="Cat"
+              >Cat</option>
+              <option
+                value="Bird"
+              >Bird</option>
+              <option
+                value="Horse"
+              >Horse</option>
+              <option
+                value="Reptile"
+              >Reptile</option>
+              <option
+                value="Rodent"
+              >Rodent</option>
+              <option
+                value="Exotic"
+              >Exotic</option>
+            <p className="visibilityHidden">Selected Type: {uType}</p>
+            </select>
+            {errors.type && <p>{errors.type}</p>}
+          </div>
 
-        <label>
-          Price
-          <input
-            onChange={(e) => setPrice(e.target.value)}
-            type="text"      
-            value={uPrice}
-            required='required'
-            placeholder="Price per night (USD)"
-          />
-        </label>
+          <div className='displayFlex alignCenter topPadding fullWidth spaceBetween'>
+            <label className='largeFont displayFlex font almostBlackFont'>
+              Price
+            </label>
 
-        <button type="submit">Update</button>
+            <input
+              onChange={(e) => setPrice(e.target.value)}
+              type="text"      
+              value={uPrice}
+              className='noBorder dropShadow logInInputSize littleMoreLeftMargin' 
+              required='required'
+              placeholder="Price per night (USD)"
+            />
+          </div>
+          <div>
+            {errors.price && <p>{errors.price}</p>}
+          </div>
 
-      </form>
-    </>
+          <div className="fullWidth textCenter">
+            <button onClick={handleUpdate}>Update</button>
+          </div>
+
+        </form>
+    </div>
   )
 }
 

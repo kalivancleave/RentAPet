@@ -3,6 +3,10 @@ body {
   padding: 0px;
   background-color: #FFFDF7;
 }
+
+textarea {
+  resize: none;
+}
 /* colors */
 
 .darkGreen {
@@ -56,6 +60,10 @@ body {
 }
 
 /* font sizes */
+.userIconFont {
+  font-size: 40px;
+}
+
 .xx-largeFont {
   font-size: xx-large;
 }
@@ -105,6 +113,17 @@ body {
   margin-top: 5px;
 }
 
+.topMargin {
+  margin-top: 15px;
+}
+
+.bottomMargin {
+  margin-bottom: 10px;
+}
+.moreBottomMargin {
+  margin-bottom: 15px;
+}
+
 .leftPageBorder {
   margin-left: 50px;
 }
@@ -129,6 +148,10 @@ body {
   padding: 0px;
 }
 
+.padding {
+  padding: 5px;
+}
+
 .littlePadding {
   padding: 5px;
 }
@@ -145,6 +168,10 @@ body {
   padding-top: 15px;
 }
 
+.moreTopPadding {
+  padding-top: 20px;
+}
+
 .littleBottomPadding {
   padding-bottom: 5px;
 }
@@ -153,8 +180,16 @@ body {
   padding-bottom: 10px;
 }
 
+.moreBottomPadding {
+  padding-bottom: 20px;
+}
+
 .rightPadding {
   padding-right: 20px;
+}
+
+.lotsOfRightPadding {
+  padding-right: 40px;
 }
 
 .leftPadding {
@@ -166,9 +201,26 @@ body {
   width: 100%;
 }
 
+.threeQuarterWidth {
+  width: 75%;
+}
+
+.halfWidth {
+  width: 50%;
+}
+
+.quarterWidth {
+  width: 25%;
+}
+
 .logInInputSize {
   width: 300px;
   height: 25px;
+}
+
+.textAreaSize {
+  width: 300px;
+  height: 150px;
 }
 
 /* misc items */
@@ -208,6 +260,10 @@ body {
   flex-wrap: wrap;
 }
 
+.wordWrap {
+  word-wrap: break-word;
+}
+
 .spaceBetween {
   justify-content: space-between;
 }
@@ -228,8 +284,24 @@ body {
   text-align: center;
 }
 
+.textRight {
+  text-align: right;
+}
+
 .justifyCenter {
   justify-items: center;
+}
+
+.justifyContentCenter {
+  justify-content: center;
+}
+
+.justifyContentRight {
+  justify-content: right;
+}
+
+.justifyRight {
+  justify-items: right;
 }
 
 .alignBottom {
@@ -260,10 +332,22 @@ body {
 }
 
 .frontPageCards {
-  width: 250px;
-  height: 350px;
+  width: 350px;
+  height: 200px;
   padding: 10px;
   transition: top ease 300ms;
+}
+
+.reviewCards {
+  width: 300px;
+  height: 150px;
+  padding: 10px;
+}
+
+.reservationCards {
+  width: 300px;
+  height: 90px;
+  padding: 10px;
 }
 
 .frontPageCards:hover {
@@ -271,8 +355,14 @@ body {
 }
 
 .imageShape {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+}
+
+.largeImageShape {
+  width: 200px;
+  height: 200px;
   border-radius: 100%;
 }
 
@@ -286,7 +376,7 @@ button {
   padding: 10px 15px;
   margin: 2px 0px;
   border: none;
-  width: 100px;
+  width: 125px;
   border-radius: 5px;
 }
 
@@ -300,7 +390,7 @@ button:hover {
   padding: 10px 15px;
   margin: 2px 0px;
   border: none;
-  width: 100px;
+  width: 125px;
   border-radius: 5px;
 }
 
@@ -332,6 +422,50 @@ button:hover {
   border-radius: 5px;
 }
 
+.subtleButton {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: medium;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  text-decoration: underline;
+  width: 100%;
+}
+
+.subtleButton:hover {
+  font-family: "Rancho", cursive;
+  font-weight: bold;
+  font-size: medium;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  text-decoration: underline;
+  width: 100%;
+}
+
+.iconButton {
+  font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-size: 35px;
+  font-style: normal;
+  color: #32523A;
+  background-color: #FFFDF7;
+  width: auto;
+}
+
+.iconButton:hover{
+  font-family: "Rancho", cursive;
+  font-weight: bold;
+  font-size: 35px;
+  font-style: normal;
+  color: #C1FF72;
+  background-color: #FFFDF7;
+  width: auto;
+}
+
+
 .visibilityHidden {
   visibility: hidden;
+  height: 0;
 }
