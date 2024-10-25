@@ -105,6 +105,7 @@ const UpdateAnimalModal = (props) => {
       <img className='smallLogo' src={Logo} />
       <p className='header xx-largeFont noMargin almostBlackFont'>Update Pet</p>
       {console.log(currentAnimal?.animalImages[(currentAnimal?.animalImages.length - 1)]?.url)}
+      {console.log(imageSelected)}
 
         <form onSubmit={(e) => e.preventDefault()} className='displayFlex flexColumn littleMoreTopPadding'>
 
@@ -207,7 +208,7 @@ const UpdateAnimalModal = (props) => {
             {errors.price && <p>{errors.price}</p>}
           </div>
 
-          <div className="fullWidth textCenter">
+          <div className="fullWidth textCenter topMargin">
             <button onClick={handleUpdate}>Update</button>
           </div>
 
