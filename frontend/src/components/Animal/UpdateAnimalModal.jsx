@@ -20,8 +20,8 @@ const UpdateAnimalModal = (props) => {
 
   const [errors, setErrors] = useState({})
 
-  const [imageSelected, setImageSelected] = useState(currentAnimal?.animalImage);
-  const [imageToUpload, setImageToUpload] = useState('');
+  const [imageSelected, setImageSelected] = useState();
+  const [imageToUpload, setImageToUpload] = useState();
 
   const { closeModal } = useModal();
 
@@ -83,9 +83,11 @@ const UpdateAnimalModal = (props) => {
 
     dispatch(updateAnimal(updatedAnimal))
     await wait()
-    .then(async function updatePetImage() {
-      dispatch(createImage(newImage))
-      await wait();
+    .then(async function uploadImageIfNeeded() {
+      if(imageSelected !== undefined){
+        dispatch(createImage(newImage))
+        await wait();
+      }
     })
     .then(async function refreshAnimalDetails() {
       dispatch(fetchOneAnimal(animalId))
